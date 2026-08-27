@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zone Sport - التغطية الأسرع والأشمل للأخبار الرياضية</title>
+    <title>Zone Sport - المنصة الإخبارية الرياضية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,7 +13,6 @@
             --card-bg: #12151E;
             --card-border: rgba(255, 184, 0, 0.15);
             --text-muted: #94A3B8;
-            --danger-red: #EF4444;
         }
 
         * {
@@ -30,138 +29,22 @@
             min-height: 100vh;
         }
 
-        /* 1. Header & Navigation */
-        header {
-            background: rgba(18, 21, 30, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--brand-gold);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
-        }
-
-        .navbar {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand-logo {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--brand-silver);
-            text-decoration: none;
-        }
-
-        .brand-logo span {
-            color: var(--brand-gold);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--brand-gold);
-        }
-
-        /* 2. Breaking News Ticker */
-        .breaking-news {
-            background: #1a1508;
-            border-bottom: 1px solid rgba(255, 184, 0, 0.2);
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .breaking-badge {
-            background: var(--danger-red);
-            color: #fff;
-            padding: 3px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            margin-left: 15px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .breaking-text {
-            color: var(--brand-silver);
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
         /* Hero Banner */
         .hero {
             text-align: center;
-            padding: 30px 20px 10px 20px;
+            padding: 40px 20px 20px 20px;
             background: radial-gradient(circle at top, rgba(255, 184, 0, 0.08) 0%, transparent 70%);
         }
 
-        .hero h2 {
-            font-size: 2rem;
-            font-weight: 950;
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
             color: var(--brand-silver);
+            letter-spacing: -0.5px;
         }
 
-        .hero h2 span {
+        .hero h1 span {
             color: var(--brand-gold);
-        }
-
-        /* 3. Categories Tabs */
-        .categories-container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .categories-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .cat-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.3s;
-        }
-
-        .cat-btn:hover, .cat-btn.active {
-            background: var(--brand-gold);
-            color: #000;
-            border-color: var(--brand-gold);
         }
 
         /* News Cards Grid */
@@ -279,7 +162,7 @@
         .spinner {
             width: 45px;
             height: 45px;
-            border: 4px solid rgba(255,184,0,0.1);
+            border: 4px solid rgba(255,184,0,1);
             border-top: 4px solid var(--brand-gold);
             border-radius: 50%;
             animation: spin 0.9s linear infinite;
@@ -296,52 +179,19 @@
             font-size: 0.85rem;
             background: #06070a;
         }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-        }
     </style>
 </head>
 <body>
-
-    <!-- الهيدر الحقيقي -->
-    <header>
-        <div class="navbar">
-            <a href="#" class="brand-logo">ZONE <span>SPORT</span></a>
-            <ul class="nav-links">
-                <li><a href="#" class="active">الرئيسية</a></li>
-                <li><a href="#">الأهلي</a></li>
-                <li><a href="#">الدوري المصري</a></li>
-                <li><a href="#">أخبار عالمية</a></li>
-                <li><a href="#">مباريات اليوم</a></li>
-            </ul>
-        </div>
-    </header>
-
-    <!-- شريط الأخبار العاجلة -->
-    <div class="breaking-news">
-        <span class="breaking-badge">عاجل</span>
-        <div class="breaking-text">النادي الأهلي يعلن الاستعداد الكامل للمواجهات القادمة في بطولة الدوري العام وسط تركيز تام من الجهاز الفني.</div>
-    </div>
-
     <section class="hero">
-        <h2>أحدث تغطيات <span>النادي الأهلي</span></h2>
+        <h1>ZONE <span>SPORT</span></h1>
+        <p style="color: var(--text-muted);">التغطية الأسرع والأشمل للأخبار الرياضية بالنادي الأهلي</p>
     </section>
-
-    <!-- تصنيفات الأخبار (Tabs) -->
-    <div class="categories-container">
-        <button class="cat-btn active">الكل</button>
-        <button class="cat-btn">أخبار الأهلي</button>
-        <button class="cat-btn">الدوري المصري</button>
-        <button class="cat-btn">أخبار اللاعبين</button>
-        <button class="cat-btn">عالمي</button>
-    </div>
 
     <main>
         <div class="news-grid" id="newsGrid">
             <div class="spinner-box">
                 <div class="spinner"></div>
-                <p>جاري سحب أحدث التغطيات الرياضية...</p>
+                <p>جاري سحب أحدث التغطيات المصورة...</p>
             </div>
         </div>
     </main>
@@ -351,14 +201,9 @@
     </footer>
 
     <script>
-        const BOT_TOKEN = "ضع_التوكن_الجديد_هنا"; // تذكر تغيير هذا التوكن بعد عمل Revoke من BotFather
+        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
 
         function loadArticles() {
-            if(BOT_TOKEN.includes("ضع_التوكن")) {
-                document.getElementById('newsGrid').innerHTML = '<p style="text-align:center; grid-column:1/-1; color:var(--brand-gold);">الرجاء ضبط توكن البوت الصحيح في الكود.</p>';
-                return;
-            }
-
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`)
             .then(res => res.json())
             .then(async data => {
@@ -370,6 +215,7 @@
 
                     for (let item of validPosts.reverse()) {
                         const msg = item.channel_post || item.message;
+                        const msgId = msg.message_id;
                         let text = msg.text || msg.caption || "تغطية خاصة - Zone Sport";
                         let title = text.split('\n')[0];
                         let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG', {
