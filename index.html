@@ -50,17 +50,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
         }
 
         .brand-logo {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: var(--brand-silver);
             text-decoration: none;
+            letter-spacing: 1px;
         }
 
         .brand-logo span {
             color: var(--brand-gold);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         /* Search Box */
@@ -68,11 +76,16 @@
             background: #1a1e29;
             border: 1px solid var(--card-border);
             border-radius: 20px;
-            padding: 5px 15px;
+            padding: 6px 15px;
             display: flex;
             align-items: center;
             gap: 8px;
-            width: 280px;
+            width: 260px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--brand-gold);
         }
 
         .search-box input {
@@ -86,15 +99,35 @@
             text-align: right;
         }
 
+        /* Admin Button */
+        .admin-btn {
+            background: transparent;
+            border: 1px solid var(--brand-gold);
+            color: var(--brand-gold);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .admin-btn:hover {
+            background: var(--brand-gold);
+            color: #000;
+            box-shadow: 0 0 12px rgba(255, 184, 0, 0.4);
+        }
+
         /* Hero Banner */
         .hero {
             text-align: center;
-            padding: 30px 20px 10px 20px;
-            background: radial-gradient(circle at top, rgba(255, 184, 0, 0.08) 0%, transparent 70%);
+            padding: 35px 20px 15px 20px;
+            background: radial-gradient(circle at top, rgba(255, 184, 0, 0.1) 0%, transparent 70%);
         }
 
         .hero h1 {
-            font-size: 2.2rem;
+            font-size: 2.3rem;
             font-weight: 900;
             color: var(--brand-silver);
         }
@@ -106,7 +139,7 @@
         /* Categories Tabs */
         .categories-container {
             max-width: 1200px;
-            margin: 20px auto;
+            margin: 15px auto;
             padding: 0 20px;
             display: flex;
             gap: 10px;
@@ -123,7 +156,7 @@
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             color: var(--text-muted);
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: 20px;
             font-weight: 700;
             font-size: 0.9rem;
@@ -171,7 +204,7 @@
         .card-img-container {
             width: 100%;
             height: 210px;
-            background: #000;
+            background: #1a1e29;
             overflow: hidden;
             position: relative;
         }
@@ -202,7 +235,7 @@
         }
 
         .card-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 800;
             color: #fff;
             line-height: 1.5;
@@ -273,7 +306,9 @@
 
         @media (max-width: 600px) {
             .navbar { flex-direction: column; gap: 15px; align-items: stretch; }
+            .header-actions { flex-direction: column-reverse; width: 100%; }
             .search-box { width: 100%; }
+            .admin-btn { width: 100%; text-align: center; }
             .hero h1 { font-size: 1.8rem; }
         }
     </style>
@@ -283,9 +318,12 @@
     <header>
         <div class="navbar">
             <a href="index.html" class="brand-logo">ZONE <span>SPORT</span></a>
-            <div class="search-box">
-                <span style="color: var(--brand-gold);">🔍</span>
-                <input type="text" id="searchInput" placeholder="ابحث في الأخبار...">
+            <div class="header-actions">
+                <div class="search-box">
+                    <span style="color: var(--brand-gold);">🔍</span>
+                    <input type="text" id="searchInput" placeholder="ابحث في الأخبار...">
+                </div>
+                <button onclick="openAdminModal()" class="admin-btn">🔑 لوحة التحكم</button>
             </div>
         </div>
     </header>
@@ -319,27 +357,41 @@
         const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
         let allArticles = [];
 
-        function loadArticles() {
+        // دالة الدخول للوحة التحكم عند الضغط على الزر
+        function openAdminModal() {
+            const ADMIN_PASSWORD = "123"; // يمكنك تغيير باسورد الأدمن من هنا
+            
+            let password = prompt("برجاء إدخال كلمة سر الأدمن للدخول إلى لوحة التحكم:");
+
+            if (password === null) {
+                return; // إذا اضغط إلغاء
+            }
+
+            if (password === ADMIN_PASSWORD) {
+                alert("تم التحقق بنجاح! جاري التوجيه...");
+                window.location.href = "admin.html"; // اسم صفحة الأدمن
+            } else {
+                alert("كلمة السر غير صحيحة!");
+            }
+        }
+
+        async function loadArticles() {
             const timestamp = new Date().getTime();
 
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`)
-            .then(res => res.json())
-            .then(async data => {
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`);
+                const data = await res.json();
                 const grid = document.getElementById('newsGrid');
-                grid.innerHTML = '';
 
                 if (data.ok && data.result.length > 0) {
                     const validPosts = data.result.filter(item => item.channel_post || item.message);
-                    
                     const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
                     
-                    allArticles = [];
-
-                    for (let item of validPosts.reverse()) {
+                    const articlesPromises = validPosts.reverse().map(async (item) => {
                         const msg = item.channel_post || item.message;
                         const msgId = msg.message_id;
 
-                        if (hiddenArticles.includes(msgId)) continue;
+                        if (hiddenArticles.includes(msgId)) return null;
 
                         let text = msg.text || msg.caption || "تغطية خاصة - Zone Sport";
                         let title = text.split('\n')[0];
@@ -353,19 +405,20 @@
                             imgUrl = await fetchTelegramFile(fileId);
                         }
 
-                        allArticles.push({ id: msgId, title, text, date, imgUrl });
-                    }
+                        return { id: msgId, title, text, date, imgUrl };
+                    });
+
+                    const results = await Promise.all(articlesPromises);
+                    allArticles = results.filter(art => art !== null);
 
                     renderCards(allArticles);
-
                 } else {
                     grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">لا توجد أخبار جديدة حالياً.</p>';
                 }
-            })
-            .catch(err => {
+            } catch (err) {
                 console.error(err);
                 document.getElementById('newsGrid').innerHTML = '<p style="text-align:center; grid-column:1/-1; color:#ef4444;">حدث خطأ أثناء تحميل الأخبار.</p>';
-            });
+            }
         }
 
         function renderCards(articles) {
@@ -382,7 +435,7 @@
                 card.className = 'card';
                 card.innerHTML = `
                     <div class="card-img-container">
-                        <img src="${art.imgUrl}" class="card-img" alt="صورة الخبر" loading="lazy">
+                        <img src="${art.imgUrl}" class="card-img" alt="صورة الخبر" loading="lazy" onerror="this.src='logo.png'">
                     </div>
                     <div class="card-body">
                         <div class="card-date">📅 ${art.date}</div>
