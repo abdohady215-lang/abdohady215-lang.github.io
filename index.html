@@ -63,21 +63,16 @@
             color: var(--brand-gold);
         }
 
-        /* Search Box Updated */
+        /* Search Box */
         .search-box {
             background: #1a1e29;
             border: 1px solid var(--card-border);
             border-radius: 20px;
-            padding: 3px 6px 3px 12px;
+            padding: 5px 15px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            width: 320px;
-            transition: border-color 0.3s;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--brand-gold);
+            gap: 8px;
+            width: 280px;
         }
 
         .search-box input {
@@ -89,37 +84,6 @@
             font-family: 'Cairo', sans-serif;
             width: 100%;
             text-align: right;
-        }
-
-        .search-btn {
-            background: var(--brand-gold);
-            color: #000;
-            border: none;
-            border-radius: 14px;
-            padding: 5px 12px;
-            font-weight: 800;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            white-space: nowrap;
-        }
-
-        .search-btn:hover {
-            opacity: 0.9;
-        }
-
-        .clear-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1rem;
-            cursor: pointer;
-            display: none;
-            padding: 0 4px;
-        }
-
-        .clear-btn:hover {
-            color: #fff;
         }
 
         /* Hero Banner */
@@ -320,9 +284,8 @@
         <div class="navbar">
             <a href="index.html" class="brand-logo">ZONE <span>SPORT</span></a>
             <div class="search-box">
+                <span style="color: var(--brand-gold);">🔍</span>
                 <input type="text" id="searchInput" placeholder="ابحث في الأخبار...">
-                <button type="button" class="clear-btn" id="clearBtn" onclick="clearSearch()" title="مسح">✖</button>
-                <button type="button" class="search-btn" onclick="executeSearch()">بحث 🔍</button>
             </div>
         </div>
     </header>
@@ -441,37 +404,12 @@
             return "logo.png";
         }
 
-        // Search logic
-        const searchInput = document.getElementById('searchInput');
-        const clearBtn = document.getElementById('clearBtn');
-
-        function executeSearch() {
-            const term = searchInput.value.toLowerCase().trim();
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
             const filtered = allArticles.filter(art => 
                 art.title.toLowerCase().includes(term) || art.text.toLowerCase().includes(term)
             );
             renderCards(filtered);
-        }
-
-        function clearSearch() {
-            searchInput.value = '';
-            clearBtn.style.display = 'none';
-            renderCards(allArticles);
-        }
-
-        searchInput.addEventListener('input', (e) => {
-            if (e.target.value.length > 0) {
-                clearBtn.style.display = 'inline-block';
-            } else {
-                clearBtn.style.display = 'none';
-            }
-            executeSearch();
-        });
-
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                executeSearch();
-            }
         });
 
         function filterCategory(cat, btn) {
