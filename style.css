@@ -1,0 +1,21 @@
+/* تعديلات لتكييف الصورة بالكامل بدون قص */
+
+/* إغلاق الارتفاع الثابت للمستوعب */
+.card-img-container {
+    width: 100%;
+    height: auto !important;
+    max-height: 400px; /* حد أقصى للارتفاع لعدم تمدد الكارت بزيادة */
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ضبط الصورة لتظهر بالكامل احتواءً (contain) أو بأبعادها الطبيعية */
+.card-img {
+    width: 100%;
+    height: auto !important;
+    max-height: 400px;
+    object-fit: contain !important; /* يضمن ظهور الصورة كاملة بدون قص أطرافها */
+    transition: transform 0.3s ease;
+}
