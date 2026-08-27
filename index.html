@@ -258,22 +258,47 @@
             flex-grow: 1;
         }
 
+        /* أزرار الإجراءات داخل الكارت */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
         .read-more {
-            display: block;
-            width: 100%;
+            flex: 2;
             text-align: center;
             background: linear-gradient(135deg, var(--brand-gold) 0%, #D49A00 100%);
             color: #000;
             text-decoration: none;
-            padding: 12px 0;
+            padding: 10px 0;
             border-radius: 10px;
             font-weight: 800;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: opacity 0.2s;
         }
 
         .read-more:hover {
             opacity: 0.9;
+        }
+
+        .copy-btn {
+            flex: 1;
+            background: #1a1e29;
+            color: var(--brand-silver);
+            border: 1px solid var(--card-border);
+            padding: 10px 0;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: var(--brand-gold);
+            color: #000;
+            border-color: var(--brand-gold);
         }
 
         .spinner-box {
@@ -344,7 +369,7 @@
         <div class="news-grid" id="newsGrid">
             <div class="spinner-box">
                 <div class="spinner"></div>
-                <p>جاري سحب أحدث التغطيات من تليجرام...</p>
+                <p>جاري تحميل الاخبار</p>
             </div>
         </div>
     </main>
@@ -357,19 +382,15 @@
         const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
         let allArticles = [];
 
-        // دالة الدخول للوحة التحكم عند الضغط على الزر
         function openAdminModal() {
-            const ADMIN_PASSWORD = "Abdo01155943060"; // يمكنك تغيير باسورد الأدمن من هنا
-            
+            const ADMIN_PASSWORD = "Abdo01155943060";
             let password = prompt("برجاء إدخال كلمة سر الأدمن للدخول إلى لوحة التحكم:");
 
-            if (password === null) {
-                return; // إذا اضغط إلغاء
-            }
+            if (password === null) return;
 
             if (password === ADMIN_PASSWORD) {
                 alert("تم التحقق بنجاح! جاري التوجيه...");
-                window.location.href = "admin.html"; // اسم صفحة الأدمن
+                window.location.href = "admin.html";
             } else {
                 alert("كلمة السر غير صحيحة!");
             }
@@ -433,6 +454,10 @@
             articles.forEach(art => {
                 const card = document.createElement('div');
                 card.className = 'card';
+                card.id = `post-${art.id}`;
+                
+                const detailUrl = `article.html?id=${art.id}&title=${encodeURIComponent(art.title)}&text=${encodeURIComponent(art.text)}&date=${encodeURIComponent(art.date)}&img=${encodeURIComponent(art.imgUrl)}`;
+
                 card.innerHTML = `
                     <div class="card-img-container">
                         <img src="${art.imgUrl}" class="card-img" alt="صورة الخبر" loading="lazy" onerror="this.src='logo.png'">
@@ -441,10 +466,24 @@
                         <div class="card-date">📅 ${art.date}</div>
                         <h2 class="card-title">${art.title}</h2>
                         <p class="card-text">${art.text}</p>
-                        <a href="article.html?title=${encodeURIComponent(art.title)}&text=${encodeURIComponent(art.text)}&date=${encodeURIComponent(art.date)}&img=${encodeURIComponent(art.imgUrl)}" class="read-more">التفاصيل الكاملة</a>
+                        <div class="card-actions">
+                            <a href="${detailUrl}" class="read-more">التفاصيل الكاملة</a>
+                            <button onclick="copyPostLink('${art.id}')" class="copy-btn">📋 نسخ الرابط</button>
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
+            });
+        }
+
+        // دالة نسخ رابط قصير ونظيف للخبر
+        function copyPostLink(postId) {
+            const shortUrl = `${window.location.origin}${window.location.pathname}#post-${postId}`;
+            
+            navigator.clipboard.writeText(shortUrl).then(() => {
+                alert(`✅ تم نسخ رابط الخبر بنجاح:\n${shortUrl}`);
+            }).catch(err => {
+                console.error('فشل عملية النسخ:', err);
             });
         }
 
