@@ -3,160 +3,428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zone Sport - لوحة الإدارة والحذف</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Zone Sport - المنصة الإخبارية الرياضية الشاملة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background-color: #090a0f;
-            color: #fff;
-            font-family: 'Cairo', sans-serif;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+        :root {
+            --brand-gold: #FFB800;
+            --brand-silver: #E2E8F0;
+            --dark-bg: #090A0F;
+            --card-bg: #12151E;
+            --card-border: rgba(255, 184, 0, 0.15);
+            --text-muted: #94A3B8;
+            --danger-red: #EF4444;
         }
-        header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 2px solid #ffb800;
-            margin-bottom: 30px;
-        }
-        h1 { color: #ffb800; font-size: 1.8rem; }
-        p.subtitle { color: #94a3b8; font-size: 0.9rem; margin-top: 5px; }
 
-        .article-card {
-            background: #12151e;
-            border: 1px solid rgba(255, 184, 0, 0.2);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Navbar & Header */
+        header {
+            background: rgba(18, 21, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--brand-gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .article-info { flex-grow: 1; }
-        .article-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 5px; }
-        .article-date { font-size: 0.8rem; color: #ffb800; }
-        
-        .status-badge {
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 4px;
-            margin-right: 8px;
-        }
-        .badge-hidden { background: #ef4444; color: #fff; }
 
-        .btn {
+        .brand-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--brand-silver);
+            text-decoration: none;
+        }
+
+        .brand-logo span {
+            color: var(--brand-gold);
+        }
+
+        /* Search Box */
+        .search-box {
+            background: #1a1e29;
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 280px;
+        }
+
+        .search-box input {
+            background: transparent;
             border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 700;
-            transition: 0.2s;
-            white-space: nowrap;
+            color: #fff;
+            outline: none;
+            font-size: 0.9rem;
+            font-family: 'Cairo', sans-serif;
+            width: 100%;
+            text-align: right;
         }
-        .btn-delete { background: #ef4444; color: #fff; }
-        .btn-delete:hover { background: #dc2626; }
-        .btn-restore { background: #10b981; color: #fff; }
-        .btn-restore:hover { background: #059669; }
 
-        .loading { text-align: center; color: #94a3b8; padding: 40px; }
+        /* Hero Banner */
+        .hero {
+            text-align: center;
+            padding: 30px 20px 10px 20px;
+            background: radial-gradient(circle at top, rgba(255, 184, 0, 0.08) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--brand-silver);
+        }
+
+        .hero h1 span {
+            color: var(--brand-gold);
+        }
+
+        /* Categories Tabs */
+        .categories-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            direction: rtl;
+        }
+
+        .categories-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--brand-gold);
+            color: #000;
+            border-color: var(--brand-gold);
+        }
+
+        /* News Cards Grid */
+        main {
+            max-width: 1200px;
+            margin: 20px auto 40px auto;
+            padding: 0 20px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--brand-gold);
+            box-shadow: 0 15px 30px rgba(255, 184, 0, 0.2);
+        }
+
+        .card-img-container {
+            width: 100%;
+            height: 210px;
+            background: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.08);
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-date {
+            font-size: 0.8rem;
+            color: var(--brand-gold);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .read-more {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, var(--brand-gold) 0%, #D49A00 100%);
+            color: #000;
+            text-decoration: none;
+            padding: 12px 0;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            transition: opacity 0.2s;
+        }
+
+        .read-more:hover {
+            opacity: 0.9;
+        }
+
+        .spinner-box {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 0;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 4px solid rgba(255,184,0,0.3);
+            border-top: 4px solid var(--brand-gold);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        footer {
+            border-top: 1px solid var(--card-border);
+            padding: 25px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            background: #06070a;
+        }
+
+        @media (max-width: 600px) {
+            .navbar { flex-direction: column; gap: 15px; align-items: stretch; }
+            .search-box { width: 100%; }
+            .hero h1 { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>لوحة تحكم الأخبار ⚽</h1>
-        <p class="subtitle">إدارة وحذف الأخبار المعروضة على موقع Zone Sport</p>
+        <div class="navbar">
+            <a href="index.html" class="brand-logo">ZONE <span>SPORT</span></a>
+            <div class="search-box">
+                <span style="color: var(--brand-gold);">🔍</span>
+                <input type="text" id="searchInput" placeholder="ابحث في الأخبار...">
+            </div>
+        </div>
     </header>
 
-    <div id="articlesList" class="loading">جاري فحص وجلب الأخبار...</div>
+    <section class="hero">
+        <h1>ZONE <span>SPORT</span></h1>
+        <p style="color: var(--text-muted);">التغطية الأسرع والأشمل للأخبار الرياضية بالنادي الأهلي</p>
+    </section>
+
+    <div class="categories-container">
+        <button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>
+        <button class="cat-btn" onclick="filterCategory('الأهلي', this)">أخبار الأهلي</button>
+        <button class="cat-btn" onclick="filterCategory('الدوري', this)">الدوري المصري</button>
+        <button class="cat-btn" onclick="filterCategory('عالمي', this)">عالمي</button>
+    </div>
+
+    <main>
+        <div class="news-grid" id="newsGrid">
+            <div class="spinner-box">
+                <div class="spinner"></div>
+                <p>جاري سحب أحدث التغطيات من تليجرام...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Zone Sport. جميع الحقوق محفوظة.</p>
+    </footer>
 
     <script>
-        // 1. حماية الصفحة بكلمة سر
-        const PASSWORD = "123"; // تقدر تغير كلمة السر دي لأي حاجة تحبها
-        const userPass = prompt("أدخل كلمة المرور لدخول لوحة التحكم:");
-
-        if (userPass !== PASSWORD) {
-            alert("كلمة المرور خاطئة!");
-            window.location.href = "index.html";
-        }
-
         const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
+        let allArticles = [];
 
-        // 2. دالة جلب وعرض الأخبار
-        function loadAdminArticles() {
-            let hiddenIds = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
+        function loadArticles() {
+            const timestamp = new Date().getTime();
 
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`)
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`)
             .then(res => res.json())
-            .then(data => {
-                const list = document.getElementById('articlesList');
-                list.className = '';
-                list.innerHTML = '';
+            .then(async data => {
+                const grid = document.getElementById('newsGrid');
+                grid.innerHTML = '';
 
                 if (data.ok && data.result.length > 0) {
                     const validPosts = data.result.filter(item => item.channel_post || item.message);
+                    
+                    const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
+                    
+                    allArticles = [];
 
-                    if(validPosts.length === 0) {
-                        list.innerHTML = '<div class="loading">لا توجد أخبار حالياً.</div>';
-                        return;
-                    }
-
-                    validPosts.reverse().forEach(item => {
+                    for (let item of validPosts.reverse()) {
                         const msg = item.channel_post || item.message;
-                        const id = msg.message_id;
+                        const msgId = msg.message_id;
+
+                        if (hiddenArticles.includes(msgId)) continue;
+
                         let text = msg.text || msg.caption || "تغطية خاصة - Zone Sport";
                         let title = text.split('\n')[0];
                         let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG', {
-                            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                            year: 'numeric', month: 'long', day: 'numeric'
                         });
 
-                        const isHidden = hiddenIds.includes(id);
+                        let imgUrl = "logo.png";
+                        if (msg.photo && msg.photo.length > 0) {
+                            const fileId = msg.photo[msg.photo.length - 1].file_id;
+                            imgUrl = await fetchTelegramFile(fileId);
+                        }
 
-                        const div = document.createElement('div');
-                        div.className = 'article-card';
-                        div.innerHTML = `
-                            <div class="article-info">
-                                <div class="article-title">
-                                    ${title}
-                                    ${isHidden ? '<span class="status-badge badge-hidden">محذوف من الموقع</span>' : ''}
-                                </div>
-                                <div class="article-date">🕒 ${date}</div>
-                            </div>
-                            <button class="btn ${isHidden ? 'btn-restore' : 'btn-delete'}" onclick="toggleHide(${id})">
-                                ${isHidden ? 'إعادة إظهار' : 'حذف من الموقع'}
-                            </button>
-                        `;
-                        list.appendChild(div);
-                    });
+                        allArticles.push({ id: msgId, title, text, date, imgUrl });
+                    }
+
+                    renderCards(allArticles);
+
                 } else {
-                    list.innerHTML = '<div class="loading">تعذر جلب الأخبار من تليجرام.</div>';
+                    grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">لا توجد أخبار جديدة حالياً.</p>';
                 }
             })
             .catch(err => {
                 console.error(err);
-                document.getElementById('articlesList').innerHTML = '<div class="loading">حدث خطأ أثناء الاتصال.</div>';
+                document.getElementById('newsGrid').innerHTML = '<p style="text-align:center; grid-column:1/-1; color:#ef4444;">حدث خطأ أثناء تحميل الأخبار.</p>';
             });
         }
 
-        // 3. دالة الحذف والإظهار
-        function toggleHide(id) {
-            let hiddenIds = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
-            if (hiddenIds.includes(id)) {
-                hiddenIds = hiddenIds.filter(item => item !== id);
-            } else {
-                hiddenIds.push(id);
+        function renderCards(articles) {
+            const grid = document.getElementById('newsGrid');
+            grid.innerHTML = '';
+            
+            if(articles.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">لا توجد نتائج مطابقة لبحثك.</p>';
+                return;
             }
-            localStorage.setItem('hidden_articles', JSON.stringify(hiddenIds));
-            loadAdminArticles();
+
+            articles.forEach(art => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-img-container">
+                        <img src="${art.imgUrl}" class="card-img" alt="صورة الخبر" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-date">📅 ${art.date}</div>
+                        <h2 class="card-title">${art.title}</h2>
+                        <p class="card-text">${art.text}</p>
+                        <a href="article.html?title=${encodeURIComponent(art.title)}&text=${encodeURIComponent(art.text)}&date=${encodeURIComponent(art.date)}&img=${encodeURIComponent(art.imgUrl)}" class="read-more">التفاصيل الكاملة</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
         }
 
-        // تشغيل الجلب عند التحميل
-        loadAdminArticles();
+        async function fetchTelegramFile(fileId) {
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
+                const data = await res.json();
+                if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
+            } catch (e) {}
+            return "logo.png";
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allArticles.filter(art => 
+                art.title.toLowerCase().includes(term) || art.text.toLowerCase().includes(term)
+            );
+            renderCards(filtered);
+        });
+
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if(cat === 'all') {
+                renderCards(allArticles);
+            } else {
+                const filtered = allArticles.filter(art => art.text.includes(cat) || art.title.includes(cat));
+                renderCards(filtered);
+            }
+        }
+
+        window.onload = loadArticles;
     </script>
 </body>
 </html>
