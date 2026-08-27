@@ -2,10 +2,11 @@
 <html lang="ar" dir="rtl">
     <head>
         <meta charset="UTF-8">
-        <TItle>ZONE SPORT</TItle>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ZONE SPORT</title>
         <style>
             body {
-                background:linear-gradient(135deg,#0d0e15 0%,#1a1c29 50%,#0d0e15 100%);
+                background: linear-gradient(135deg, #0d0e15 0%, #1a1c29 50%, #0d0e15 100%);
                 color: #e0e6ed;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 display: flex;
@@ -15,97 +16,113 @@
                 text-align: center;
                 min-height: 100vh;
                 margin: 0;
-                padding: 20px;}
+                padding: 20px;
+            }
 
-             section,header,footer {
-                    background: rgba(22,27,34,0.75);
-                    backdrop-filter: blur(16px);
-                    -webkit-backdrop-filter: blur(15px);
-                    border: 1px solid rgba(255,255,255,0.1);
-                    border-radius: 11px ;
-                    padding: 24px;
-                    margin: 15px 0;
-                    width: 90%;
-                    max-width: 750px;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-                    text-align: center;
-                    transition: all 0.4s ease ;
-                    }
+            section, header, footer {
+                background: rgba(22, 27, 34, 0.75);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 11px;
+                padding: 24px;
+                margin: 15px 0;
+                width: 90%;
+                max-width: 750px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                text-align: center;
+                transition: all 0.4s ease;
+            }
 
-                    section:hover,header:hover,footer:hover {
-                        background: rgba(212, 175,55, 0.15);
-                        border-color: rgba(212, 175,55, 0.5);
-                        transform: translateY(-5px);
-                        box-shadow: 0 15px 35px rgba(212, 175,55, 0.25);
-                    }
-                    
-                    h1,h2,h3 {
-                        color: #ffffff;
-                        margin-top: 0;}
+            section:hover, header:hover, footer:hover {
+                background: rgba(212, 175, 55, 0.15);
+                border-color: rgba(212, 175, 55, 0.5);
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(212, 175, 55, 0.25);
+            }
 
+            h1, h2, h3 {
+                color: #ffffff;
+                margin-top: 0;
+            }
 
-                    table {
-                        width: 100%;
-                        border-collapse: collapse;
-                        margin-top: 15px ;
-                        background: rgba(15,20,28,0.6);
-                        border-radius: 8px;
-                        overflow: hidden;}
+            img {
+                max-width: 100%;
+                border-radius: 8px;
+                margin: 10px 0;
+            }
 
-                        th,td {
-                            padding: 12px 15px;
-                            border: 1px solid rgba(255, 255, 255,0.08);
-                            text-align:center ;}
-                            
-                            th{
-                                background-color: rgba(204, 0,0,0.5);
-                                color: #ffffff;
-                            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+                background: rgba(15, 20, 28, 0.6);
+                border-radius: 8px;
+                overflow: hidden;
+            }
 
-                            input,textarea{
-                                background: rgba(255, 255, 255, 0.05);
-                                border: 1px solid rgba(255, 255, 255, 0.2);
-                                border-radius: 6px;
-                                padding: 10px;
-                                color: #ffffff;
-                                width: 85%;
-                                margin-top: 8px;
-                            outline: none;}
+            th, td {
+                padding: 12px 15px;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                text-align: center;
+            }
 
-                            input:focus,textarea,:focus {border-color: #ff3333;}
-                                
+            th {
+                background-color: rgba(204, 0, 0, 0.5);
+                color: #ffffff;
+            }
 
-                                input[type="submit"] {
-                                    background: #cc0000; color: #ffffff; border: none; border-radius: 6px; padding: 10px 25px; font-weight: bold; cursor: pointer; transition: 0.3s ease;}
+            input, textarea {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 6px;
+                padding: 10px;
+                color: #ffffff;
+                width: 85%;
+                margin-top: 8px;
+                outline: none;
+            }
 
+            input:focus, textarea:focus {
+                border-color: #ff3333;
+            }
+
+            input[type="submit"] {
+                background: #cc0000;
+                color: #ffffff;
+                border: none;
+                border-radius: 6px;
+                padding: 10px 25px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: 0.3s ease;
+            }
         </style>
     </head>
     <body>
-        <H1>ZONE SPORT - زون سبورت</H1>
-        <P>مصدرك الاول  لأخبار النادي الاهلي والراضة المصرية</P>
-        <HR></HR>
+
+        <header>
+            <h1>ZONE SPORT - زون سبورت 🦅</h1>
+            <p>مصدرك الأول لأخبار النادي الأهلي والرياضة المصرية</p>
+        </header>
+
         <nav>
-            <ul>
-                <li><a href="#news">احدث الاخبار</a></li>
-                <li><a href="#matches">مباريات اليوم</a></li>
-                <li><a href="#contact">تواصل معنا</a></li>
+            <ul style="list-style: none; padding: 0; display: flex; gap: 15px; justify-content: center;">
+                <li><a href="#newsContainer" style="color: #ffffff; text-decoration: none; font-weight: bold;">أحدث الأخبار</a></li>
+                <li><a href="#matches" style="color: #ffffff; text-decoration: none; font-weight: bold;">مباريات اليوم</a></li>
+                <li><a href="#contact" style="color: #ffffff; text-decoration: none; font-weight: bold;">تواصل معنا</a></li>
             </ul>
         </nav>
-        <hr>
-        <section id="news">
-            <h2>أحدث اخبار النادي الاهلي</h2>
-            <article>
-                <h3>استعدادات الفريق للمبارة القادمة</h3>
-                <p>اليوم المران الاخير للفريق قبل مواجهة زد غدا في تمام الساعة 8 يوم الجمعة غدا</p>
-                <a href="https://www.facebook.com/share/p/1ckmmg7tlw" target="_blank">اقرا المزيد علي الفيسبوك</a>
-                
-            </article>
-        </section>
 
-        <hr>
+        <!-- حاوية جميع الأخبار الديناميكية (تليجرام + جوجل شيت + الأخبار التلقائية) -->
+        <main id="newsContainer" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <section>
+                <p>جاري تحميل أحدث الأخبار...</p>
+            </section>
+        </main>
 
         <section id="matches">
-            <h2>جدول مباريات النادي الاهلي الخمس جولات القادمة في الدوري المصري  الممتاز</h2>
+            <h2>جدول مباريات النادي الأهلي الخمس جولات القادمة في الدوري المصري الممتاز</h2>
             <table border="1" cellpadding="9" cellspacing="0">
                 <thead>
                     <tr>
@@ -117,177 +134,165 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>الجولة الثانية</td>
-                    <td>الاهلي vs زد</td>
-                    <td>28-8-206</td>
-                    <td>الساعه 8:00</td>
-                    <td>استاد القاهرة</td>
-                </tr>
-                <tr><td>الجولة الثالثة</td>
-                    <td>الاهلي vs سموحه</td>
-                    <td>3-9-2026</td>
-                    <td>الساعه 8:00</td>
-                    <td>استاد القاهرة</td>
-                </tr>
-                <tr><td>الجولة الرابعه</td>
-                    <td>الاهلي vs المقاولون العرب</td>
-                    <td>9-9-2026</td>
-                    <td>الساعه 8:00</td>
-                    <td>استاد المقاولون العرب</td>
-                </tr>
-                <tr><td>الجولة الخامسه</td>
-                    <td>الاهلي vs ابو قير</td>
-                    <td>15-9-2026</td>
-                    <td>الساعه 8:00</td>
-                    <td>استاد القاهرة</td>
-                </tr>
-                <tr><td>الجولة السادسة</td>
-                    <td>الاهلي vs الزمالك</td>
-                    <td>11-10-2026</td>
-                    <td>الساعه 8:00</td>
-                    <td>استاد القاهرة</td>
-                </tr>
-                    
-                    
+                    <tr>
+                        <td>الجولة الثانية</td>
+                        <td>الأهلي vs زد</td>
+                        <td>28-8-2026</td>
+                        <td>الساعة 8:00</td>
+                        <td>استاد القاهرة</td>
+                    </tr>
+                    <tr>
+                        <td>الجولة الثالثة</td>
+                        <td>الأهلي vs سموحة</td>
+                        <td>3-9-2026</td>
+                        <td>الساعة 8:00</td>
+                        <td>استاد القاهرة</td>
+                    </tr>
+                    <tr>
+                        <td>الجولة الرابعة</td>
+                        <td>الأهلي vs المقاولون العرب</td>
+                        <td>9-9-2026</td>
+                        <td>الساعة 8:00</td>
+                        <td>استاد المقاولون العرب</td>
+                    </tr>
+                    <tr>
+                        <td>الجولة الخامسة</td>
+                        <td>الأهلي vs أبو قير</td>
+                        <td>15-9-2026</td>
+                        <td>الساعة 8:00</td>
+                        <td>استاد القاهرة</td>
+                    </tr>
+                    <tr>
+                        <td>الجولة السادسة</td>
+                        <td>الأهلي vs الزمالك</td>
+                        <td>11-10-2026</td>
+                        <td>الساعة 8:00</td>
+                        <td>استاد القاهرة</td>
+                    </tr>
                 </tbody>
             </table>
-
         </section>
 
-        <hr>
         <section id="contact">
             <h2>انضم لمتابعي صفحة زون سبورت</h2>
-            <p>اشترك في النشرة الاخبارية ليصلك كل اخبار النادي الاهلي علي ايميلك اول بأول</p>
+            <p>اشترك في النشرة الإخبارية ليصلك كل أخبار النادي الأهلي علي إيميلك أول بأول</p>
             <form>
-                <label for="user mame">الاسم:</label>
-                <br><input type="text"id="user name" placeholder="ادخل اسم الكريم"><br><br>
+                <label for="user-name">الاسم:</label><br>
+                <input type="text" id="user-name" placeholder="أدخل الاسم الكريم"><br><br>
 
-                <label for="user-email">البريد الالكتروني:</label>
-                <br><input type="email"id="user-email" placeholder="ادخل  البريد الالكتروني هنا"><br><br>
+                <label for="user-email">البريد الإلكتروني:</label><br>
+                <input type="email" id="user-email" placeholder="أدخل البريد الإلكتروني هنا"><br><br>
 
-                <label for="message">ما هو اقتراحك لتحسين الصفحة</label>
-                <textarea id="message" rows="4" cols="40" placeholder=" اكتب اقتراحك هنا" name="" id=""></textarea><br><br>
+                <label for="message">ما هو اقتراحك لتحسين الصفحة؟</label><br>
+                <textarea id="message" rows="4" cols="40" placeholder="اكتب اقتراحك هنا"></textarea><br><br>
 
-                <input type="submit" value="اشترك الان">
-                
-                 
+                <input type="submit" value="اشترك الآن">
             </form>
         </section>
 
         <footer>
-            <br><hr>
-            <p>جميع الحقوق محفوظة لزون سبورت 2026</p>
+            <p>&copy; 2026 Zone Sport. جميع الحقوق محفوظة.</p>
         </footer>
 
-        <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zone Sport - أحدث الأخبار</title>
-    <style>
-        body {
-            background: linear-gradient(135deg, #0d0e15 0%, #1a1c29 50%, #0d0e15 100%);
-            color: #e0e6ed;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
+        <script>
+            // 1. دالة جلب أخبار جوجل شيت القديمة
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwIyqgAtzrkbps6V4DFw3QIpN2mHMTSh8N_eGgRfRkzEOjcNyvoRB6dt-QbV3nbYF6r/exec';
 
-        section, header, footer {
-            background: rgba(22, 27, 34, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 24px;
-            margin: 15px 0;
-            width: 90%;
-            max-width: 750px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            transition: all 0.4s ease; 
-        }
+            function loadNews() {
+                fetch(scriptURL)
+                    .then(response => response.json())
+                    .then(data => {
+                        const newsContainer = document.getElementById('newsContainer');
+                        if (!newsContainer) return;
 
-        section:hover, header:hover, footer:hover {
-            background: rgba(212, 175, 55, 0.15);
-            border-color: rgba(212, 175, 55, 0.5);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.25);
-        }
+                        if (Array.isArray(data) && data.length > 0) {
+                            data.reverse().forEach(item => {
+                                const newsCard = `
+                                    <section>
+                                        <h3>${item.title}</h3>
+                                        <p style="color: #bbb; font-size: 0.9em;">📅 ${item.date || ''}</p>
+                                        ${item.image ? `<img src="${item.image}" alt="صورة الخبر">` : ''}
+                                        <p style="line-height: 1.6; text-align: right;">${item.details}</p>
+                                    </section>
+                                `;
+                                newsContainer.innerHTML += newsCard;
+                            });
+                        }
+                    })
+                    .catch(error => console.error('خطأ في جلب أخبار الشيت:', error));
+            }
 
-        h1, h2, h3 {
-            color: #ffffff;
-            margin-top: 0;
-        }
+            // 2. دالة جلب الأخبار التلقائية من Google News عبر تقنية RSS
+            function fetchAutoNews() {
+                const rssFeedUrl = 'https://news.google.com/rss/search?q=النادي+الأهلي&hl=ar&gl=EG&ceid=EG:ar';
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
 
-        img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-    </style>
-</head>
-<body>
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const newsContainer = document.getElementById('newsContainer');
+                        if (!newsContainer) return;
 
-    <header>
-        <h1>Zone Sport 🦅</h1>
-        <p>الموقع الرياضي الشامل لأحدث أخبار النادي الأهلي</p>
-    </header>
+                        if (data.status === 'ok' && data.items.length > 0) {
+                            data.items.forEach(item => {
+                                const newsCard = `
+                                    <section>
+                                        <h3>${item.title}</h3>
+                                        <p style="color: #d4af37; font-size: 0.85em;">📅 ${new Date(item.pubDate).toLocaleString('ar-EG')}</p>
+                                        <a href="${item.link}" target="_blank" style="display: inline-block; margin-top: 10px; color: #cc0000; font-weight: bold; text-decoration: none;">قراءة الخبر كاملاً من المصدر 👈</a>
+                                    </section>
+                                `;
+                                newsContainer.innerHTML += newsCard;
+                            });
+                        }
+                    })
+                    .catch(err => console.error('خطأ في جلب الأخبار التلقائية:', err));
+            }
 
-    <main id="newsContainer" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-        <section>
-            <p>جاري تحميل الأخبار...</p>
-        </section>
-    </main>
+            // 3. دالة جلب الأخبار المباشرة من بوت تليجرام
+            function loadTelegramNews() {
+                const BOT_TOKEN = '8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U';
+                const CHAT_ID = '6115705300';
 
-    <footer>
-        <p>&copy; 2026 Zone Sport. جميع الحقوق محفوظة.</p>
-    </footer>
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const container = document.getElementById('newsContainer');
+                        if (!container) return;
 
-    <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwIyqgAtzrkbps6V4DFw3QIpN2mHMTSh8N_eGgRfRkzEOjcNyvoRB6dt-QbV3nbYF6r/exec';
+                        if (data.ok && data.result.length > 0) {
+                            const messages = data.result
+                                .filter(item => item.message && item.message.chat.id == CHAT_ID)
+                                .reverse();
 
-        function loadNews() {
-            fetch(scriptURL)
-                .then(response => response.json())
-                .then(data => {
-                    const newsContainer = document.getElementById('newsContainer');
-                    if (!newsContainer) return;
+                            messages.forEach(item => {
+                                const msg = item.message;
+                                const textContent = msg.text || msg.caption || '';
+                                const dateStr = new Date(msg.date * 1000).toLocaleString('ar-EG');
 
-                    newsContainer.innerHTML = '';
+                                const card = `
+                                    <section style="background: rgba(22, 27, 34, 0.9); border: 1px solid #d4af37; border-radius: 11px; padding: 20px; margin-bottom: 15px;">
+                                        <p style="font-size: 1.05rem; line-height: 1.6; white-space: pre-line; margin: 0; text-align: right;">${textContent}</p>
+                                        <small style="color: #d4af37; display: block; margin-top: 10px; text-align: right;">📅 ${dateStr} (عبر تليجرام)</small>
+                                    </section>
+                                `;
+                                container.innerHTML += card;
+                            });
+                        }
+                    })
+                    .catch(err => console.error('خطأ في جلب أخبار تليجرام:', err));
+            }
 
-                    if (data.length === 0) {
-                        newsContainer.innerHTML = '<section><h3>لا توجد أخبار مضافة حالياً</h3></section>';
-                        return;
-                    }
+            // تشغيل جميع المصادر فور فتح الصفحة
+            window.onload = function() {
+                const container = document.getElementById('newsContainer');
+                if (container) container.innerHTML = ''; // تفريغ رسالة "جاري التحميل"
 
-                    data.reverse().forEach(item => {
-                        const newsCard = `
-                            <section>
-                                <h3>${item.title}</h3>
-                                <p style="color: #bbb; font-size: 0.9em;">📅 ${item.date || ''}</p>
-                                ${item.image ? `<img src="${item.image}" alt="صورة الخبر">` : ''}
-                                <p style="line-height: 1.6; text-align: right;">${item.details}</p>
-                            </section>
-                        `;
-                        newsContainer.innerHTML += newsCard;
-                    });
-                })
-                .catch(error => {
-                    console.error('خطأ في جلب الأخبار:', error);
-                    document.getElementById('newsContainer').innerHTML = '<section><h3>حدث خطأ أثناء تحميل الأخبار</h3></section>';
-                });
-        }
+                loadTelegramNews(); // 1. رسائل تليجرام (الأحدث بالخلفية)
+                loadNews();         // 2. أخبار جوجل شيت اليدوية
+                fetchAutoNews();    // 3. أخبار Google News التلقائية
+            };
+        </script>
 
-        window.onload = loadNews;
-    </script>
-        
-
-         </body>
+    </body>
 </html>
-  
