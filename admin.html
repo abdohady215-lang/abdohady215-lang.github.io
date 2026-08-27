@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - Zone Sport</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0d0e15 0%, #1a1c29 50%, #0d0e15 100%);
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .admin-card {
+            background: rgba(22, 27, 34, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        input, textarea {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus {
+            border-color: #d4af37;
+        }
+        button {
+            width: 95%;
+            padding: 12px;
+            margin-top: 10px;
+            background: #cc0000;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #ff1a1a;
+            box-shadow: 0 0 15px rgba(204, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <h2>🦅 لوحة نشر الأخبار - Zone Sport</h2>
+    <form id="newsForm">
+        <input type="text" id="title" placeholder="عنوان الخبر" required>
+        <textarea id="details" rows="5" placeholder="تفاصيل الخبر..." required></textarea>
+        <input type="url" id="image" placeholder="رابط صورة الخبر (اختياري)">
+        <button type="submit" id="submitBtn">نشر الخبر الآن 🚀</button>
+    </form>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwIyqgAtzrkbps6V4DFw3QIpN2mHMTSh8N_eGgRfRkzEOjcNyvoRB6dt-QbV3nbYF6r/exec';
+
+    document.getElementById('newsForm').addEventListener('submit', e => {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = 'جاري النشر...';
+        btn.disabled = true;
+
+        const data = {
+            title: document.getElementById('title').value,
+            details: document.getElementById('details').value,
+            image: document.getElementById('image').value
+        };
+
+        fetch(scriptURL, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(response => {
+            alert('تم نشر الخبر بنجاح! 🦅');
+            document.getElementById('newsForm').reset();
+        })
+        .catch(err => {
+            alert('حدث خطأ أثناء النشر!');
+            console.error(err);
+        })
+        .finally(() => {
+            btn.innerText = 'نشر الخبر الآن 🚀';
+            btn.disabled = false;
+        });
+    });
+</script>
+
+</body>
+</html>
