@@ -4,20 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل الخبر - Zone Sport</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #0d0e15; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
-        .container { max-width: 700px; margin: 0 auto; background: #161b22; padding: 20px; border-radius: 10px; border: 1px solid #30363d; }
-        .btn-copy { background: #d4af37; color: #000; border: none; padding: 10px 15px; font-weight: bold; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
-        .content { font-size: 1.1rem; line-height: 1.8; white-space: pre-wrap; }
-        .back-link { display: inline-block; margin-top: 20px; color: #cc0000; text-decoration: none; font-weight: bold; }
+        :root {
+            --brand-gold: #FFB800;
+            --brand-silver: #E2E8F0;
+            --dark-bg: #090A0F;
+            --card-bg: #12151E;
+            --card-border: rgba(255, 184, 0, 0.15);
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            line-height: 1.8;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--brand-gold);
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, var(--brand-gold) 0%, #D49A00 100%);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: 800;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 184, 0, 0.2);
+        }
+
+        .btn-copy:hover { opacity: 0.9; }
+        .btn-copy:active { transform: scale(0.96); }
+
+        .post-image {
+            width: 100%;
+            max-height: 480px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            display: none;
+            border: 1px solid var(--card-border);
+        }
+
+        .article-body {
+            font-size: 1.15rem;
+            white-space: pre-wrap;
+            color: var(--brand-silver);
+            line-height: 2;
+        }
+
+        /* AdSense Space Box */
+        .ad-space {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px dashed var(--card-border);
+            text-align: center;
+            padding: 15px;
+            margin: 25px 0;
+            border-radius: 10px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .loading-box {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <button class="btn-copy" onclick="copyLink()">📋 نسخ رابط الخبر للفيسبوك</button>
-        <div class="content" id="postContent">جاري فتح الخبر... ⏳</div>
-        <a href="index.html" class="back-link">← العودة للرئيسية</a>
+        <div class="action-bar">
+            <a href="index.html" class="back-link">← العودة للرئيسية</a>
+            <button class="btn-copy" onclick="copyArticleLink()">📋 نسخ رابط الخبر للفيسبوك</button>
+        </div>
+
+        <!-- مساحة إعلانية علوية لجوجل أدسينس -->
+        <div class="ad-space">مساحة إعلانية (Google AdSense)</div>
+
+        <img id="postImage" class="post-image" alt="صورة المقال">
+
+        <div class="article-body" id="articleBody">
+            <div class="loading-box">جاري تحميل تفاصيل الخبر الاحترافي... ⏳</div>
+        </div>
+
+        <!-- مساحة إعلانية سفلية -->
+        <div class="ad-space">مساحة إعلانية (Google AdSense)</div>
     </div>
 
     <script>
@@ -25,31 +140,57 @@
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('id');
 
-        function loadSinglePost() {
+        function fetchSingleArticle() {
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`)
             .then(res => res.json())
-            .then(data => {
+            .then(async data => {
                 const target = data.result.find(item => {
                     const msg = item.channel_post || item.message;
                     return msg && msg.message_id == postId;
                 });
 
-                if(target) {
+                if (target) {
                     const msg = target.channel_post || target.message;
-                    document.getElementById('postContent').innerText = msg.text;
+                    const text = msg.text || msg.caption || "";
+                    document.getElementById('articleBody').innerText = text;
+
+                    if (msg.photo && msg.photo.length > 0) {
+                        const fileId = msg.photo[msg.photo.length - 1].file_id;
+                        const imgUrl = await getTelegramFileUrl(fileId);
+                        const imgElement = document.getElementById('postImage');
+                        imgElement.src = imgUrl;
+                        imgElement.style.display = 'block';
+                    }
                 } else {
-                    document.getElementById('postContent').innerText = "عذراً، لم يتم العثور على الخبر!";
+                    document.getElementById('articleBody').innerHTML = '<p style="color:#FFB800; text-align:center;">عذراً، الخبر المطلوب غير موجود أو تم حذفه.</p>';
                 }
+            })
+            .catch(err => {
+                document.getElementById('articleBody').innerHTML = '<p style="color:#d32f2f; text-align:center;">حدث خطأ أثناء تحميل الخبر.</p>';
             });
         }
 
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.href);
-            alert("تم نسخ رابط الخبر بنجاح! تقدر تحطه فيس بوك دلوقتي 🚀");
+        async function getTelegramFileUrl(fileId) {
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
+                const data = await res.json();
+                if (data.ok) {
+                    return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
+                }
+            } catch (e) {}
+            return "";
         }
 
-        if(postId) loadSinglePost();
-    </script>
+        function copyArticleLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("تم نسخ رابط المقال المباشر بنجاح! انشره الآن على صفحة الفيسبوك 🚀");
+        }
 
+        if (postId) {
+            fetchSingleArticle();
+        } else {
+            document.getElementById('articleBody').innerHTML = '<p style="text-align:center;">رابط غير صالح.</p>';
+        }
+    </script>
 </body>
 </html>
