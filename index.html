@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zone Sport - المنصة الإخبارية الرياضية</title>
+    <title>Zone Sport - المنصة الإخبارية الرياضية الشاملة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,6 +13,7 @@
             --card-bg: #12151E;
             --card-border: rgba(255, 184, 0, 0.15);
             --text-muted: #94A3B8;
+            --danger-red: #EF4444;
         }
 
         * {
@@ -29,10 +30,97 @@
             min-height: 100vh;
         }
 
+        /* Navbar & Header */
+        header {
+            background: rgba(18, 21, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--brand-gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--brand-silver);
+            text-decoration: none;
+        }
+
+        .brand-logo span {
+            color: var(--brand-gold);
+        }
+
+        /* Search Box */
+        .search-box {
+            background: #1a1e29;
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 280px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            outline: none;
+            font-size: 0.9rem;
+            font-family: 'Cairo', sans-serif;
+            width: 100%;
+        }
+
+        /* Breaking News Ticker */
+        .breaking-news {
+            background: #1a1508;
+            border-bottom: 1px solid rgba(255, 184, 0, 0.2);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .breaking-badge {
+            background: var(--danger-red);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-left: 15px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .breaking-text {
+            color: var(--brand-silver);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
         /* Hero Banner */
         .hero {
             text-align: center;
-            padding: 40px 20px 20px 20px;
+            padding: 30px 20px 10px 20px;
             background: radial-gradient(circle at top, rgba(255, 184, 0, 0.08) 0%, transparent 70%);
         }
 
@@ -45,6 +133,40 @@
 
         .hero h1 span {
             color: var(--brand-gold);
+        }
+
+        /* Categories Tabs */
+        .categories-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--brand-gold);
+            color: #000;
+            border-color: var(--brand-gold);
         }
 
         /* News Cards Grid */
@@ -179,13 +301,44 @@
             font-size: 0.85rem;
             background: #06070a;
         }
+
+        @media (max-width: 600px) {
+            .navbar { flex-direction: column; gap: 15px; }
+            .search-box { width: 100%; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- الهيدر مع شريط البحث الفوري -->
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="brand-logo">ZONE <span>SPORT</span></a>
+            <div class="search-box">
+                <span style="color: var(--brand-gold);">🔍</span>
+                <input type="text" id="searchInput" placeholder="ابحث في الأخبار...">
+            </div>
+        </div>
+    </header>
+
+    <!-- شريط الأخبار العاجلة المتحرك -->
+    <div class="breaking-news">
+        <span class="breaking-badge">عاجل</span>
+        <div class="breaking-text" id="breakingTicker">النادي الأهلي يواصل تحضيراته القوية للمواجهات القادمة في البطولات المحلية والقارية.</div>
+    </div>
+
     <section class="hero">
         <h1>ZONE <span>SPORT</span></h1>
         <p style="color: var(--text-muted);">التغطية الأسرع والأشمل للأخبار الرياضية بالنادي الأهلي</p>
     </section>
+
+    <!-- أزرار التصنيفات (Tabs) -->
+    <div class="categories-container">
+        <button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>
+        <button class="cat-btn" onclick="filterCategory('الأهلي', this)">أخبار الأهلي</button>
+        <button class="cat-btn" onclick="filterCategory('الدوري', this)">الدوري المصري</button>
+        <button class="cat-btn" onclick="filterCategory('عالمي', this)">عالمي</button>
+    </div>
 
     <main>
         <div class="news-grid" id="newsGrid">
@@ -202,6 +355,7 @@
 
     <script>
         const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
+        let allArticles = []; // مصفوفة لتخزين الأخبار للبحث والفلترة
 
         function loadArticles() {
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`)
@@ -212,6 +366,7 @@
 
                 if (data.ok && data.result.length > 0) {
                     const validPosts = data.result.filter(item => item.channel_post || item.message);
+                    allArticles = []; // تفريغ المصفوفة القديمة
 
                     for (let item of validPosts.reverse()) {
                         const msg = item.channel_post || item.message;
@@ -228,27 +383,52 @@
                             imgUrl = await fetchTelegramFile(fileId);
                         }
 
-                        const card = document.createElement('div');
-                        card.className = 'card';
-                        card.innerHTML = `
-                            <div class="card-img-container">
-                                <img src="${imgUrl}" class="card-img" alt="صورة الخبر" loading="lazy">
-                            </div>
-                            <div class="card-body">
-                                <div class="card-date">📅 ${date}</div>
-                                <h2 class="card-title">${title}</h2>
-                                <p class="card-text">${text}</p>
-                                <a href="#" class="read-more">التفاصيل الكاملة</a>
-                            </div>
-                        `;
-                        grid.appendChild(card);
+                        // حفظ الخبر في المصفوفة الشاملة
+                        allArticles.push({ id: msgId, title, text, date, imgUrl });
                     }
+
+                    // عرض الأخبار لأول مرة
+                    renderCards(allArticles);
+
+                    // تحديث شريط الأخبار العاجلة بأول خبر
+                    if(allArticles.length > 0) {
+                        document.getElementById('breakingTicker').innerText = allArticles[0].title;
+                    }
+
                 } else {
                     grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">لا توجد أخبار جديدة حالياً.</p>';
                 }
             })
             .catch(err => {
                 console.error(err);
+            });
+        }
+
+        // دالة رسم الكروت في الصفحة
+        function renderCards(articles) {
+            const grid = document.getElementById('newsGrid');
+            grid.innerHTML = '';
+            
+            if(articles.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">لا توجد نتائج مطابقة لبحثك.</p>';
+                return;
+            }
+
+            articles.forEach(art => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-img-container">
+                        <img src="${art.imgUrl}" class="card-img" alt="صورة الخبر" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-date">📅 ${art.date}</div>
+                        <h2 class="card-title">${art.title}</h2>
+                        <p class="card-text">${art.text}</p>
+                        <a href="article.html?title=${encodeURIComponent(art.title)}&text=${encodeURIComponent(art.text)}&date=${encodeURIComponent(art.date)}&img=${encodeURIComponent(art.imgUrl)}" class="read-more">التفاصيل الكاملة</a>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
         }
 
@@ -259,6 +439,28 @@
                 if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
             } catch (e) {}
             return "logo.png";
+        }
+
+        // محرك البحث الفوري الحي
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allArticles.filter(art => 
+                art.title.toLowerCase().includes(term) || art.text.toLowerCase().includes(term)
+            );
+            renderCards(filtered);
+        });
+
+        // فلترة التصنيفات (Tabs)
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if(cat === 'all') {
+                renderCards(allArticles);
+            } else {
+                const filtered = allArticles.filter(art => art.text.includes(cat) || art.title.includes(cat));
+                renderCards(filtered);
+            }
         }
 
         window.onload = loadArticles;
