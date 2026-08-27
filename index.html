@@ -46,12 +46,6 @@
                 margin-top: 0;
             }
 
-            img {
-                max-width: 100%;
-                border-radius: 8px;
-                margin: 10px 0;
-            }
-
             table {
                 width: 100%;
                 border-collapse: collapse;
@@ -114,7 +108,7 @@
             </ul>
         </nav>
 
-        <!-- حاوية جميع الأخبار الديناميكية (تليجرام + جوجل شيت + الأخبار التلقائية) -->
+        <!-- حاوية الأخبار الحصرية القادمة من تليجرام فقط -->
         <main id="newsContainer" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             <section>
                 <p>جاري تحميل أحدث الأخبار...</p>
@@ -195,61 +189,7 @@
         </footer>
 
         <script>
-            // 1. دالة جلب أخبار جوجل شيت القديمة
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwIyqgAtzrkbps6V4DFw3QIpN2mHMTSh8N_eGgRfRkzEOjcNyvoRB6dt-QbV3nbYF6r/exec';
-
-            function loadNews() {
-                fetch(scriptURL)
-                    .then(response => response.json())
-                    .then(data => {
-                        const newsContainer = document.getElementById('newsContainer');
-                        if (!newsContainer) return;
-
-                        if (Array.isArray(data) && data.length > 0) {
-                            data.reverse().forEach(item => {
-                                const newsCard = `
-                                    <section>
-                                        <h3>${item.title}</h3>
-                                        <p style="color: #bbb; font-size: 0.9em;">📅 ${item.date || ''}</p>
-                                        ${item.image ? `<img src="${item.image}" alt="صورة الخبر">` : ''}
-                                        <p style="line-height: 1.6; text-align: right;">${item.details}</p>
-                                    </section>
-                                `;
-                                newsContainer.innerHTML += newsCard;
-                            });
-                        }
-                    })
-                    .catch(error => console.error('خطأ في جلب أخبار الشيت:', error));
-            }
-
-            // 2. دالة جلب الأخبار التلقائية من Google News عبر تقنية RSS
-            function fetchAutoNews() {
-                const rssFeedUrl = 'https://news.google.com/rss/search?q=النادي+الأهلي&hl=ar&gl=EG&ceid=EG:ar';
-                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
-
-                fetch(apiUrl)
-                    .then(response => response.json())
-                    .then(data => {
-                        const newsContainer = document.getElementById('newsContainer');
-                        if (!newsContainer) return;
-
-                        if (data.status === 'ok' && data.items.length > 0) {
-                            data.items.forEach(item => {
-                                const newsCard = `
-                                    <section>
-                                        <h3>${item.title}</h3>
-                                        <p style="color: #d4af37; font-size: 0.85em;">📅 ${new Date(item.pubDate).toLocaleString('ar-EG')}</p>
-                                        <a href="${item.link}" target="_blank" style="display: inline-block; margin-top: 10px; color: #cc0000; font-weight: bold; text-decoration: none;">قراءة الخبر كاملاً من المصدر 👈</a>
-                                    </section>
-                                `;
-                                newsContainer.innerHTML += newsCard;
-                            });
-                        }
-                    })
-                    .catch(err => console.error('خطأ في جلب الأخبار التلقائية:', err));
-            }
-
-            // 3. دالة جلب الأخبار المباشرة من بوت تليجرام
+            // دالة جلب الأخبار المباشرة من بوت تليجرام فقط
             function loadTelegramNews() {
                 const BOT_TOKEN = '8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U';
                 const CHAT_ID = '6115705300';
@@ -260,10 +200,17 @@
                         const container = document.getElementById('newsContainer');
                         if (!container) return;
 
+                        container.innerHTML = ''; // تفريغ رسالة التحميل
+
                         if (data.ok && data.result.length > 0) {
                             const messages = data.result
                                 .filter(item => item.message && item.message.chat.id == CHAT_ID)
                                 .reverse();
+
+                            if (messages.length === 0) {
+                                container.innerHTML = '<section><h3>لا توجد أخبار مضافة حالياً. ارسل خبر عبر تليجرام لكي يظهر هنا!</h3></section>';
+                                return;
+                            }
 
                             messages.forEach(item => {
                                 const msg = item.message;
@@ -271,27 +218,25 @@
                                 const dateStr = new Date(msg.date * 1000).toLocaleString('ar-EG');
 
                                 const card = `
-                                    <section style="background: rgba(22, 27, 34, 0.9); border: 1px solid #d4af37; border-radius: 11px; padding: 20px; margin-bottom: 15px;">
+                                    <section style="background: rgba(22, 27, 34, 0.9); border: 1px solid #d4af37; border-radius: 11px; padding: 20px; margin-bottom: 15px; width: 100%;">
                                         <p style="font-size: 1.05rem; line-height: 1.6; white-space: pre-line; margin: 0; text-align: right;">${textContent}</p>
-                                        <small style="color: #d4af37; display: block; margin-top: 10px; text-align: right;">📅 ${dateStr} (عبر تليجرام)</small>
+                                        <small style="color: #d4af37; display: block; margin-top: 10px; text-align: right;">📅 ${dateStr}</small>
                                     </section>
                                 `;
                                 container.innerHTML += card;
                             });
+                        } else {
+                            container.innerHTML = '<section><h3>لا توجد أخبار حالياً.</h3></section>';
                         }
                     })
-                    .catch(err => console.error('خطأ في جلب أخبار تليجرام:', err));
+                    .catch(err => {
+                        console.error('خطأ في جلب أخبار تليجرام:', err);
+                        document.getElementById('newsContainer').innerHTML = '<section><h3>حدث خطأ أثناء تحميل الأخبار</h3></section>';
+                    });
             }
 
-            // تشغيل جميع المصادر فور فتح الصفحة
-            window.onload = function() {
-                const container = document.getElementById('newsContainer');
-                if (container) container.innerHTML = ''; // تفريغ رسالة "جاري التحميل"
-
-                loadTelegramNews(); // 1. رسائل تليجرام (الأحدث بالخلفية)
-                loadNews();         // 2. أخبار جوجل شيت اليدوية
-                fetchAutoNews();    // 3. أخبار Google News التلقائية
-            };
+            // تشغيل جلب أخبار تليجرام فور فتح الصفحة
+            window.onload = loadTelegramNews;
         </script>
 
     </body>
