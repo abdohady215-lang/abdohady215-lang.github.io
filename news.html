@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الخبر - Zone Sport</title>
+    <style>
+        body { background: #0d0e15; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 700px; margin: 0 auto; background: #161b22; padding: 20px; border-radius: 10px; border: 1px solid #30363d; }
+        .btn-copy { background: #d4af37; color: #000; border: none; padding: 10px 15px; font-weight: bold; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
+        .content { font-size: 1.1rem; line-height: 1.8; white-space: pre-wrap; }
+        .back-link { display: inline-block; margin-top: 20px; color: #cc0000; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button class="btn-copy" onclick="copyLink()">📋 نسخ رابط الخبر للفيسبوك</button>
+        <div class="content" id="postContent">جاري فتح الخبر... ⏳</div>
+        <a href="index.html" class="back-link">← العودة للرئيسية</a>
+    </div>
+
+    <script>
+        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+
+        function loadSinglePost() {
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`)
+            .then(res => res.json())
+            .then(data => {
+                const target = data.result.find(item => {
+                    const msg = item.channel_post || item.message;
+                    return msg && msg.message_id == postId;
+                });
+
+                if(target) {
+                    const msg = target.channel_post || target.message;
+                    document.getElementById('postContent').innerText = msg.text;
+                } else {
+                    document.getElementById('postContent').innerText = "عذراً، لم يتم العثور على الخبر!";
+                }
+            });
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("تم نسخ رابط الخبر بنجاح! تقدر تحطه فيس بوك دلوقتي 🚀");
+        }
+
+        if(postId) loadSinglePost();
+    </script>
+
+</body>
+</html>

@@ -1,243 +1,125 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ZONE SPORT</title>
-        <style>
-            body {
-                background: linear-gradient(135deg, #0d0e15 0%, #1a1c29 50%, #0d0e15 100%);
-                color: #e0e6ed;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                min-height: 100vh;
-                margin: 0;
-                padding: 20px;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zone Sport - الأرشيف الرياضي</title>
+    <style>
+        body {
+            background-color: #0d0e15;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 10px;
+            background: #161b22;
+            border-bottom: 2px solid #cc0000;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        /* شبكة المربعات */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        /* تصميم المربع الخاص بالخبر */
+        .news-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+            border-color: #cc0000;
+        }
+        .news-title {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .news-snippet {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .btn-read {
+            background: #cc0000;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .btn-read:hover { background: #ff0000; }
+    </style>
+</head>
+<body>
 
-            section, header, footer {
-                background: rgba(22, 27, 34, 0.75);
-                backdrop-filter: blur(16px);
-                -webkit-backdrop-filter: blur(15px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 11px;
-                padding: 24px;
-                margin: 15px 0;
-                width: 90%;
-                max-width: 750px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-                text-align: center;
-                transition: all 0.4s ease;
-            }
+    <header>
+        <h1>🦅 Zone Sport</h1>
+        <p>أحدث أخبار النادي الأهلي والكرة المصرية</p>
+    </header>
 
-            section:hover, header:hover, footer:hover {
-                background: rgba(212, 175, 55, 0.15);
-                border-color: rgba(212, 175, 55, 0.5);
-                transform: translateY(-5px);
-                box-shadow: 0 15px 35px rgba(212, 175, 55, 0.25);
-            }
+    <div class="grid-container" id="newsGrid">
+        <p style="text-align: center; width: 100%;">جاري تحميل الأخبار... ⏳</p>
+    </div>
 
-            h1, h2, h3 {
-                color: #ffffff;
-                margin-top: 0;
-            }
+    <script>
+        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
 
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 15px;
-                background: rgba(15, 20, 28, 0.6);
-                border-radius: 8px;
-                overflow: hidden;
-            }
+        function loadTelegramPosts() {
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`)
+            .then(res => res.json())
+            .then(data => {
+                const grid = document.getElementById('newsGrid');
+                grid.innerHTML = '';
 
-            th, td {
-                padding: 12px 15px;
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                text-align: center;
-            }
+                if(data.ok && data.result.length > 0) {
+                    data.result.reverse().forEach(item => {
+                        const msg = item.channel_post || item.message;
+                        if(msg && msg.text) {
+                            const fullText = msg.text;
+                            const title = fullText.split('\n')[0]; // أول سطر عنوان
+                            const msgId = msg.message_id;
 
-            th {
-                background-color: rgba(204, 0, 0, 0.5);
-                color: #ffffff;
-            }
-
-            input, textarea {
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                border-radius: 6px;
-                padding: 10px;
-                color: #ffffff;
-                width: 85%;
-                margin-top: 8px;
-                outline: none;
-            }
-
-            input:focus, textarea:focus {
-                border-color: #ff3333;
-            }
-
-            input[type="submit"] {
-                background: #cc0000;
-                color: #ffffff;
-                border: none;
-                border-radius: 6px;
-                padding: 10px 25px;
-                font-weight: bold;
-                cursor: pointer;
-                transition: 0.3s ease;
-            }
-        </style>
-    </head>
-    <body>
-
-        <header>
-            <h1>ZONE SPORT - زون سبورت 🦅</h1>
-            <p>مصدرك الأول لأخبار النادي الأهلي والرياضة المصرية</p>
-        </header>
-
-        <nav>
-            <ul style="list-style: none; padding: 0; display: flex; gap: 15px; justify-content: center;">
-                <li><a href="#newsContainer" style="color: #ffffff; text-decoration: none; font-weight: bold;">أحدث الأخبار</a></li>
-                <li><a href="#matches" style="color: #ffffff; text-decoration: none; font-weight: bold;">مباريات اليوم</a></li>
-                <li><a href="#contact" style="color: #ffffff; text-decoration: none; font-weight: bold;">تواصل معنا</a></li>
-            </ul>
-        </nav>
-
-        <!-- حاوية الأخبار الحصرية القادمة من تليجرام فقط -->
-        <main id="newsContainer" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-            <section>
-                <p>جاري تحميل أحدث الأخبار...</p>
-            </section>
-        </main>
-
-        <section id="matches">
-            <h2>جدول مباريات النادي الأهلي الخمس جولات القادمة في الدوري المصري الممتاز</h2>
-            <table border="1" cellpadding="9" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>الجولة</th>
-                        <th>المباراة</th>
-                        <th>الموعد</th>
-                        <th>التوقيت</th>
-                        <th>الملعب</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>الجولة الثانية</td>
-                        <td>الأهلي vs زد</td>
-                        <td>28-8-2026</td>
-                        <td>الساعة 8:00</td>
-                        <td>استاد القاهرة</td>
-                    </tr>
-                    <tr>
-                        <td>الجولة الثالثة</td>
-                        <td>الأهلي vs سموحة</td>
-                        <td>3-9-2026</td>
-                        <td>الساعة 8:00</td>
-                        <td>استاد القاهرة</td>
-                    </tr>
-                    <tr>
-                        <td>الجولة الرابعة</td>
-                        <td>الأهلي vs المقاولون العرب</td>
-                        <td>9-9-2026</td>
-                        <td>الساعة 8:00</td>
-                        <td>استاد المقاولون العرب</td>
-                    </tr>
-                    <tr>
-                        <td>الجولة الخامسة</td>
-                        <td>الأهلي vs أبو قير</td>
-                        <td>15-9-2026</td>
-                        <td>الساعة 8:00</td>
-                        <td>استاد القاهرة</td>
-                    </tr>
-                    <tr>
-                        <td>الجولة السادسة</td>
-                        <td>الأهلي vs الزمالك</td>
-                        <td>11-10-2026</td>
-                        <td>الساعة 8:00</td>
-                        <td>استاد القاهرة</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section id="contact">
-            <h2>انضم لمتابعي صفحة زون سبورت</h2>
-            <p>اشترك في النشرة الإخبارية ليصلك كل أخبار النادي الأهلي علي إيميلك أول بأول</p>
-            <form>
-                <label for="user-name">الاسم:</label><br>
-                <input type="text" id="user-name" placeholder="أدخل الاسم الكريم"><br><br>
-
-                <label for="user-email">البريد الإلكتروني:</label><br>
-                <input type="email" id="user-email" placeholder="أدخل البريد الإلكتروني هنا"><br><br>
-
-                <label for="message">ما هو اقتراحك لتحسين الصفحة؟</label><br>
-                <textarea id="message" rows="4" cols="40" placeholder="اكتب اقتراحك هنا"></textarea><br><br>
-
-                <input type="submit" value="اشترك الآن">
-            </form>
-        </section>
-
-        <footer>
-            <p>&copy; 2026 Zone Sport. جميع الحقوق محفوظة.</p>
-        </footer>
-
-        <script>
-            // دالة جلب الأخبار المباشرة من بوت تليجرام فقط
-            function loadTelegramNews() {
-                const BOT_TOKEN = '8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U';
-                const CHAT_ID = '6115705300';
-
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`)
-                    .then(res => res.json())
-                    .then(data => {
-                        const container = document.getElementById('newsContainer');
-                        if (!container) return;
-
-                        container.innerHTML = ''; // تفريغ رسالة التحميل
-
-                        if (data.ok && data.result.length > 0) {
-                            const messages = data.result
-                                .filter(item => item.message && item.message.chat.id == CHAT_ID)
-                                .reverse();
-
-                            if (messages.length === 0) {
-                                container.innerHTML = '<section><h3>لا توجد أخبار مضافة حالياً. ارسل خبر عبر تليجرام لكي يظهر هنا!</h3></section>';
-                                return;
-                            }
-
-                            messages.forEach(item => {
-                                const msg = item.message;
-                                const textContent = msg.text || msg.caption || '';
-                                const dateStr = new Date(msg.date * 1000).toLocaleString('ar-EG');
-
-                                const card = `
-                                    <section style="background: rgba(22, 27, 34, 0.9); border: 1px solid #d4af37; border-radius: 11px; padding: 20px; margin-bottom: 15px; width: 100%;">
-                                        <p style="font-size: 1.05rem; line-height: 1.6; white-space: pre-line; margin: 0; text-align: right;">${textContent}</p>
-                                        <small style="color: #d4af37; display: block; margin-top: 10px; text-align: right;">📅 ${dateStr}</small>
-                                    </section>
-                                `;
-                                container.innerHTML += card;
-                            });
-                        } else {
-                            container.innerHTML = '<section><h3>لا توجد أخبار حالياً.</h3></section>';
+                            const card = document.createElement('div');
+                            card.className = 'news-card';
+                            card.innerHTML = `
+                                <div>
+                                    <h3 class="news-title">${title}</h3>
+                                    <p class="news-snippet">${fullText}</p>
+                                </div>
+                                <a href="news.html?id=${msgId}" class="btn-read">اقرأ الخبر كاملاً 👈</a>
+                            `;
+                            grid.appendChild(card);
                         }
-                    })
-                    .catch(err => {
-                        console.error('خطأ في جلب أخبار تليجرام:', err);
-                        document.getElementById('newsContainer').innerHTML = '<section><h3>حدث خطأ أثناء تحميل الأخبار</h3></section>';
                     });
-            }
+                } else {
+                    grid.innerHTML = '<p style="text-align: center;">لا توجد أخبار حالياً، قم بنشر خبر في القناة أولاً!</p>';
+                }
+            });
+        }
 
-            // تشغيل جلب أخبار تليجرام فور فتح الصفحة
-            window.onload = loadTelegramNews;
-        </script>
+        window.onload = loadTelegramPosts;
+    </script>
 
-    </body>
+</body>
 </html>
