@@ -3,191 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">تفاصيل الخبر - Zone Sport</title>
-    
-    <!-- كود إعلانات AdSense التلقائية -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
-     crossorigin="anonymous"></script>
-
+    <title id="pageTitle">تفاصيل الخبر - Zone Sport</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --main-color: #d32f2f; /* أحمر أهلاوي */
-            --dark-color: #111111;
-            --bg-color: #f4f4f9;
-            --text-color: #222222;
+            --brand-gold: #FFB800;
+            --brand-silver: #E2E8F0;
+            --dark-bg: #090A0F;
+            --card-bg: #12151E;
+            --card-border: rgba(255, 184, 0, 0.15);
+            --text-muted: #94A3B8;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
+            background-color: var(--dark-bg);
+            color: #ffffff;
             line-height: 1.8;
+            direction: rtl;
+            text-align: right;
+            padding-bottom: 50px;
         }
 
         header {
-            background-color: var(--main-color);
-            color: white;
+            background: rgba(18, 21, 30, 0.95);
+            border-bottom: 2px solid var(--brand-gold);
             padding: 15px 20px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 24px;
+        .navbar {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .nav-back {
-            display: inline-block;
-            margin-top: 10px;
-            color: #ffffff;
+        .back-btn {
+            background: var(--brand-gold);
+            color: #000;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            background-color: rgba(0, 0, 0, 0.2);
-            padding: 5px 12px;
-            border-radius: 4px;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        .back-btn:hover {
+            opacity: 0.9;
         }
 
-        .article-title {
-            color: var(--dark-color);
-            font-size: 26px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--main-color);
-            padding-bottom: 10px;
+        .article-container {
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        .article-meta {
-            font-size: 13px;
-            color: #777;
-            margin-bottom: 20px;
+        .article-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .article-image {
+        .article-img-box {
             width: 100%;
             max-height: 450px;
+            overflow: hidden;
+            background: #1a1e29;
+        }
+
+        .article-img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none; /* إخفاء الصورة افتراضياً لحين تحميلها */
         }
 
         .article-content {
-            font-size: 18px;
-            white-space: pre-line; /* للحفاظ على السطور والفقرات كما هي */
-            color: #333;
+            padding: 30px;
         }
 
-        .not-found {
+        .article-date {
+            color: var(--brand-gold);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .article-title-main {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .article-body-text {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            white-space: pre-line;
+            line-height: 1.9;
+        }
+
+        .error-box {
             text-align: center;
-            padding: 50px 20px;
+            padding: 60px 20px;
         }
 
-        footer {
-            text-align: center;
-            padding: 15px;
-            background-color: var(--dark-color);
-            color: white;
-            margin-top: 40px;
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                margin: 10px;
-                padding: 15px;
-            }
-            .article-title {
-                font-size: 20px;
-            }
-            .article-content {
-                font-size: 16px;
-            }
-        }
+        .error-box h2 { color: var(--brand-gold); margin-bottom: 15px; }
+        .error-box p { color: var(--text-muted); margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Zone Sport - زون سبورت</h1>
-        <a href="index.html" class="nav-back">← العودة للرئيسية</a>
+        <div class="navbar">
+            <a href="index.html" class="back-btn">← العودة للرئيسية</a>
+            <span style="font-weight: 900; color: var(--brand-silver);">ZONE <span style="color:var(--brand-gold);">SPORT</span></span>
+        </div>
     </header>
 
-    <div class="container">
-        <!-- مساحة إعلانية علوية -->
-        <div style="text-align:center; margin-bottom: 15px;">
-            <!-- ضع كود وحدة إعلانية هنا مستقبلاً -->
-        </div>
-
-        <div id="article-container">
-            <h1 id="article-title" class="article-title">جاري تحميل الخبر...</h1>
-            <div id="article-meta" class="article-meta"></div>
-            <img id="article-image" class="article-image" src="" alt="صورة الخبر">
-            <div id="article-content" class="article-content"></div>
-        </div>
-
-        <div id="not-found" class="not-found" style="display: none;">
-            <h2>عذراً، لم يتم العثور على المقال!</h2>
-            <p>قد يكون الرابط غير صحيح أو تم العثور على الخطأ في تحميل البيانات.</p>
-            <a href="index.html" class="nav-back" style="background-color: var(--main-color);">الرجوع للصفحة الرئيسية</a>
-        </div>
-    </div>
-
-    <footer>
-        <p>جميع الحقوق محفوظة © Zone Sport 2026</p>
-    </footer>
+    <main class="article-container" id="articleWrapper">
+        <!-- يتم تحميل تفاصيل الخبر هنا تلقائياً -->
+    </main>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // جلب بيانات المقال المخزنة من الصفحة الرئيسية
-            const storedData = localStorage.getItem('currentArticle');
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
 
-            if (storedData) {
-                try {
-                    const article = JSON.parse(storedData);
+        function loadArticleDetails() {
+            const articleId = getQueryParam('id');
+            const wrapper = document.getElementById('articleWrapper');
 
-                    // تعبئة البيانات في الصفحة
-                    document.getElementById('page-title').innerText = article.title + " - Zone Sport";
-                    document.getElementById('article-title').innerText = article.title;
-                    
-                    // التاريخ أو المصدر إن وجد
-                    if (article.date) {
-                        document.getElementById('article-meta').innerText = "تاريخ النشر: " + article.date;
-                    }
+            // 1. القراءة من URL
+            let title = getQueryParam('title');
+            let text = getQueryParam('text');
+            let img = getQueryParam('img');
+            let date = getQueryParam('date');
 
-                    // عرض الصورة إن وجدت
-                    if (article.image) {
-                        const imgElem = document.getElementById('article-image');
-                        imgElem.src = article.image;
-                        imgElem.style.display = 'block';
-                    }
+            // فك التشفير للبيانات إذا وجدت في URL
+            if (title) title = decodeURIComponent(title);
+            if (text) text = decodeURIComponent(text);
+            if (img) img = decodeURIComponent(img);
+            if (date) date = decodeURIComponent(date);
 
-                    // عرض النص الكامل
-                    document.getElementById('article-content').innerText = article.text;
-
-                } catch (e) {
-                    showNotFound();
+            // 2. إذا لم تكن البيانات في الـ URL، جلبها من LocalStorage
+            if ((!title || !text) && articleId) {
+                const saved = localStorage.getItem(`article_${articleId}`);
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        title = parsed.title;
+                        text = parsed.text;
+                        img = parsed.imgUrl;
+                        date = parsed.date;
+                    } catch(e) {}
                 }
-            } else {
-                showNotFound();
             }
 
-            function showNotFound() {
-                document.getElementById('article-container').style.display = 'none';
-                document.getElementById('not-found').style.display = 'block';
+            // 3. عرض المقال
+            if (title || text) {
+                document.getElementById('pageTitle').innerText = `${title || 'خبر'} - Zone Sport`;
+
+                wrapper.innerHTML = `
+                    <article class="article-card">
+                        ${img ? `<div class="article-img-box"><img src="${img}" class="article-img" onerror="this.src='logo.png'"></div>` : ''}
+                        <div class="article-content">
+                            <div class="article-date">📅 ${date || 'Zone Sport'}</div>
+                            <h1 class="article-title-main">${title || ''}</h1>
+                            <div class="article-body-text">${text || ''}</div>
+                        </div>
+                    </article>
+                `;
+            } else {
+                // عرض رسالة خطأ فقط إن لم تتوفر البيانات إطلاقاً
+                wrapper.innerHTML = `
+                    <div class="error-box">
+                        <h2>عذراً، لم يتم العثور على المقال!</h2>
+                        <p>قد يكون الرابط غير صحيح أو تم حذف الخبر.</p>
+                        <a href="index.html" class="back-btn">الرجوع للصفحة الرئيسية</a>
+                    </div>
+                `;
             }
-        });
+        }
+
+        window.onload = loadArticleDetails;
     </script>
 </body>
 </html>

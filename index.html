@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5179431800227143" crossorigin="anonymous"></script> 
      
     <!-- Google tag (gtag.js) -->
@@ -43,7 +42,6 @@
             --card-bg: #12151E;
             --card-border: rgba(255, 184, 0, 0.15);
             --text-muted: #94A3B8;
-            --danger-red: #EF4444;
         }
 
         * {
@@ -62,7 +60,6 @@
             text-align: right;
         }
 
-        /* Navbar & Header */
         header {
             background: rgba(18, 21, 30, 0.95);
             backdrop-filter: blur(10px);
@@ -101,7 +98,6 @@
             gap: 12px;
         }
 
-        /* Search Box */
         .search-box {
             background: #1a1e29;
             border: 1px solid var(--card-border);
@@ -129,7 +125,6 @@
             text-align: right;
         }
 
-        /* Admin Button */
         .admin-btn {
             background: transparent;
             border: 1px solid var(--brand-gold);
@@ -149,7 +144,6 @@
             box-shadow: 0 0 12px rgba(255, 184, 0, 0.4);
         }
 
-        /* Hero Banner */
         .hero {
             text-align: center;
             padding: 35px 20px 15px 20px;
@@ -166,7 +160,6 @@
             color: var(--brand-gold);
         }
 
-        /* Categories Tabs */
         .categories-container {
             max-width: 1200px;
             margin: 15px auto;
@@ -201,7 +194,6 @@
             border-color: var(--brand-gold);
         }
 
-        /* News Cards Grid */
         main {
             max-width: 1200px;
             margin: 20px auto 40px auto;
@@ -288,7 +280,6 @@
             flex-grow: 1;
         }
 
-        /* أزرار الإجراءات داخل الكارت */
         .card-actions {
             display: flex;
             gap: 10px;
@@ -400,7 +391,7 @@
         <div class="news-grid" id="newsGrid">
             <div class="spinner-box">
                 <div class="spinner"></div>
-                <p>جاري تحميل الاخبار</p>
+                <p>جاري تحميل الأخبار...</p>
             </div>
         </div>
     </main>
@@ -429,11 +420,11 @@
 
         async function loadArticles() {
             const timestamp = new Date().getTime();
+            let telegramArticles = [];
 
             try {
                 const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`);
                 const data = await res.json();
-                const grid = document.getElementById('newsGrid');
 
                 if (data.ok && data.result.length > 0) {
                     const validPosts = data.result.filter(item => item.channel_post || item.message);
@@ -461,15 +452,35 @@
                     });
 
                     const results = await Promise.all(articlesPromises);
-                    allArticles = results.filter(art => art !== null);
-
-                    renderCards(allArticles);
-                } else {
-                    grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">لا توجد أخبار جديدة حالياً.</p>';
+                    telegramArticles = results.filter(art => art !== null);
                 }
             } catch (err) {
-                console.error(err);
-                document.getElementById('newsGrid').innerHTML = '<p style="text-align:center; grid-column:1/-1; color:#ef4444;">حدث خطأ أثناء تحميل الأخبار.</p>';
+                console.error("خطأ في جلب أخبار التليجرام:", err);
+            }
+
+            // جلب الأخبار المحفوظة محلياً (التي تمت إضافتها من الأدمن أو زيارتها سابساً)
+            let savedArticles = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('article_')) {
+                    try {
+                        const item = JSON.parse(localStorage.getItem(key));
+                        if (item && item.id) savedArticles.push(item);
+                    } catch(e) {}
+                }
+            }
+
+            // دمج الأخبار ومنع التكرار
+            const combined = [...telegramArticles, ...savedArticles];
+            const uniqueMap = new Map();
+            combined.forEach(item => uniqueMap.set(String(item.id), item));
+
+            allArticles = Array.from(uniqueMap.values()).sort((a, b) => b.id - a.id);
+
+            if (allArticles.length > 0) {
+                renderCards(allArticles);
+            } else {
+                document.getElementById('newsGrid').innerHTML = '<p style="text-align:center; grid-column:1/-1;">لا توجد أخبار حالياً.</p>';
             }
         }
 
@@ -483,14 +494,19 @@
             }
 
             articles.forEach(art => {
-                // حفظ بيانات المقال في localStorage لتجنب مشاكل الأحجام الكبيرة في الـ URL
+                // حفظ البيانات احتياطياً في LocalStorage
                 localStorage.setItem(`article_${art.id}`, JSON.stringify(art));
+
+                const encTitle = encodeURIComponent(art.title || '');
+                const encText = encodeURIComponent(art.text || '');
+                const encImg = encodeURIComponent(art.imgUrl || 'logo.png');
+                const encDate = encodeURIComponent(art.date || '');
+
+                const detailUrl = `article.html?id=${art.id}&title=${encTitle}&text=${encText}&img=${encImg}&date=${encDate}`;
 
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.id = `post-${art.id}`;
-                
-                const detailUrl = `article.html?id=${art.id}`;
 
                 card.innerHTML = `
                     <div class="card-img-container">
@@ -502,7 +518,7 @@
                         <p class="card-text">${art.text}</p>
                         <div class="card-actions">
                             <a href="${detailUrl}" class="read-more">التفاصيل الكاملة</a>
-                            <button onclick="copyPostLink('${art.id}')" class="copy-btn">📋 نسخ الرابط</button>
+                            <button onclick="copyPostLink('${art.id}', '${encTitle}', '${encText}', '${encImg}', '${encDate}')" class="copy-btn">📋 نسخ الرابط</button>
                         </div>
                     </div>
                 `;
@@ -510,12 +526,12 @@
             });
         }
 
-        function copyPostLink(postId) {
-            const pathName = window.location.pathname.replace('index.html', '');
-            const articleUrl = `${window.location.origin}${pathName}article.html?id=${postId}`;
+        function copyPostLink(postId, title, text, img, date) {
+            const pathName = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+            const articleUrl = `${window.location.origin}${pathName}article.html?id=${postId}&title=${title}&text=${text}&img=${img}&date=${date}`;
             
             navigator.clipboard.writeText(articleUrl).then(() => {
-                alert(`✅ تم نسخ رابط الخبر بنجاح:\n${articleUrl}`);
+                alert(`✅ تم نسخ رابط الخبر بنجاح!`);
             }).catch(err => {
                 console.error('فشل عملية النسخ:', err);
             });
