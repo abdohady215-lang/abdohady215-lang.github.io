@@ -257,8 +257,17 @@
 
             try {
                 const timestamp = new Date().getTime();
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`);
-                const data = await res.json();
+                const targetUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`;
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                
+                const res = await fetch(proxyUrl);
+                const wrapper = await res.json();
+                
+                if (!wrapper.contents) {
+                    throw new Error('فشل الاتصال بالخادم');
+                }
+
+                const data = JSON.parse(wrapper.contents);
 
                 if (data.ok && data.result.length > 0) {
                     // البحث عن الخبر عبر الـ ID
@@ -338,8 +347,12 @@
 
         async function fetchTelegramFile(fileId) {
             try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
-                const data = await res.json();
+                const targetUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`;
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                const res = await fetch(proxyUrl);
+                const wrapper = await res.json();
+                if (!wrapper.contents) return "logo.png";
+                const data = JSON.parse(wrapper.contents);
                 if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
             } catch (e) {}
             return "logo.png";

@@ -252,32 +252,65 @@
     </main>
 
     <script>
-        // سيتم وضع رابط الـ Apps Script الجديد هنا فور إرساله
-        const SCRIPT_URL = ""; 
+        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
 
         async function loadNews() {
             const grid = document.getElementById('newsGrid');
+            const timestamp = new Date().getTime();
 
-            if (!SCRIPT_URL) {
-                grid.innerHTML = '<div class="loading-container"><p>https://script.google.com/macros/s/AKfycbwgXpPRlBQqWqaV5pV7JGMD2bJgq-XjJbTSQuk5sViNrOmWinpMDfCUDYouhyVEZM3Fug/exec</p></div>';
-                return;
-            }
+            // استخدام بروكسي آمن لتخطي مشكلة الـ CORS وجلب المنشورات من بوت تليجرام مباشرة
+            const targetUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`;
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
 
             try {
-                const res = await fetch(SCRIPT_URL);
-                const data = await res.json();
+                const res = await fetch(proxyUrl);
+                const wrapper = await res.json();
+                
+                if (!wrapper.contents) {
+                    throw new Error('فشل الاتصال');
+                }
 
-                if (data && data.length > 0) {
+                const data = JSON.parse(wrapper.contents);
+
+                if (data.ok && data.result && data.result.length > 0) {
                     const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
                     
-                    const validPosts = data.filter(item => !hiddenArticles.includes(item.id));
+                    const validPosts = data.result
+                        .filter(item => item.channel_post || item.message)
+                        .filter(item => {
+                            const msgId = (item.channel_post || item.message).message_id;
+                            return !hiddenArticles.includes(msgId);
+                        });
 
                     if (validPosts.length === 0) {
                         grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار معروضة حالياً.</p></div>';
                         return;
                     }
 
-                    renderCards(validPosts);
+                    const articlesPromises = validPosts.reverse().map(async (item) => {
+                        const msg = item.channel_post || item.message;
+                        const msgId = msg.message_id;
+                        let text = msg.text || msg.caption || "تغطية خاصة - Zone Sport";
+                        
+                        const lines = text.split('\n').filter(l => l.trim() !== '');
+                        let title = lines[0] || "خبر رياضي عاجل";
+                        let excerpt = lines.slice(1).join(' ') || text;
+
+                        let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG', {
+                            year: 'numeric', month: 'short', day: 'numeric'
+                        });
+
+                        let imgUrl = null;
+                        if (msg.photo && msg.photo.length > 0) {
+                            const fileId = msg.photo[msg.photo.length - 1].file_id;
+                            imgUrl = await fetchTelegramFile(fileId);
+                        }
+
+                        return { id: msgId, title, excerpt, date, imgUrl };
+                    });
+
+                    const articles = await Promise.all(articlesPromises);
+                    renderCards(articles);
 
                 } else {
                     grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار حالياً.</p></div>';
@@ -305,7 +338,7 @@
                 card.innerHTML = `
                     ${imageHTML}
                     <div class="card-body">
-                        <div class="card-date">📅 ${art.date || 'حديث'}</div>
+                        <div class="card-date">📅 ${art.date}</div>
                         <h2 class="card-title">${art.title}</h2>
                         <p class="card-excerpt">${art.excerpt}</p>
                         <div class="card-footer">
@@ -323,6 +356,19 @@
                     targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
             }
+        }
+
+        async function fetchTelegramFile(fileId) {
+            try {
+                const targetUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`;
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                const res = await fetch(proxyUrl);
+                const wrapper = await res.json();
+                if (!wrapper.contents) return null;
+                const data = JSON.parse(wrapper.contents);
+                if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
+            } catch (e) {}
+            return null;
         }
 
         function copyPostLink(id) {

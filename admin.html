@@ -239,8 +239,8 @@
             <h2>ZONE <span>SPORT</span></h2>
             <p>أدخل كلمة المرور للوصول للإدارة</p>
             <input type="password" id="passInput" class="login-input" placeholder="كلمة المرور..." onkeydown="if(event.key==='Enter') doLogin()">
-            <button onclick="doLogin()" class="login-btn">دخول </button>
-            <div id="errorText" class="error-msg"> كلمة المرور غير صحيحة!</div>
+            <button onclick="doLogin()" class="login-btn">دخول</button>
+            <div id="errorText" class="error-msg">كلمة المرور غير صحيحة!</div>
         </div>
     </div>
 
@@ -250,14 +250,14 @@
             <div class="navbar">
                 <a href="https://abdohady215-lang.github.io/" class="brand-logo">ZONE <span>SPORT</span> - الإدارة</a>
                 <div>
-                    <a href="https://abdohady215-lang.github.io/" class="btn-site">عرض الموقع </a>
-                    <button onclick="doLogout()" class="logout-btn">خروج </button>
+                    <a href="https://abdohady215-lang.github.io/" class="btn-site">عرض الموقع</a>
+                    <button onclick="doLogout()" class="logout-btn">خروج</button>
                 </div>
             </div>
         </header>
 
         <main>
-            <h1 class="page-title"> إدارة عرض الأخبار</h1>
+            <h1 class="page-title">إدارة عرض الأخبار</h1>
             <table class="admin-table">
                 <thead>
                     <tr>
@@ -317,10 +317,19 @@
             const timestamp = new Date().getTime();
 
             try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`);
-                const data = await res.json();
+                const targetUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`;
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
 
-                if (data.ok && data.result.length > 0) {
+                const res = await fetch(proxyUrl);
+                const wrapper = await res.json();
+                
+                if (!wrapper.contents) {
+                    throw new Error('فشل الاتصال');
+                }
+
+                const data = JSON.parse(wrapper.contents);
+
+                if (data.ok && data.result && data.result.length > 0) {
                     tbody.innerHTML = '';
                     const validPosts = data.result.filter(item => item.channel_post || item.message).reverse();
 
@@ -344,7 +353,7 @@
                             </td>
                             <td>
                                 <button onclick="toggleVisibility(${id})" class="btn-toggle ${isHidden ? 'btn-show' : 'btn-hide'}">
-                                    ${isHidden ? 'إظهار ' : 'إخفاء '}
+                                    ${isHidden ? 'إظهار' : 'إخفاء'}
                                 </button>
                             </td>
                         `;
@@ -354,6 +363,7 @@
                     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">لا توجد منشورات.</td></tr>';
                 }
             } catch (err) {
+                console.error(err);
                 tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--danger); padding:20px;">خطأ في جلب البيانات من تليجرام.</td></tr>';
             }
         }
