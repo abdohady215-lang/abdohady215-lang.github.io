@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://abdohady215-lang.github.io/zonesport/sitemap.xml
+Sitemap: https://abdohady215-lang.github.io/sitemap.xml
