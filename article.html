@@ -31,7 +31,6 @@
             text-align: right;
         }
 
-        /* Navbar */
         header {
             background: rgba(18, 21, 30, 0.95);
             backdrop-filter: blur(10px);
@@ -43,7 +42,7 @@
         }
 
         .navbar {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 15px 20px;
             display: flex;
@@ -62,34 +61,11 @@
             color: var(--brand-gold);
         }
 
-        .nav-links {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .nav-btn {
-            background: transparent;
-            border: 1px solid var(--card-border);
-            color: var(--brand-silver);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn:hover {
-            border-color: var(--brand-gold);
-            color: var(--brand-gold);
-        }
-
-        .admin-btn {
+        .back-btn {
             background: transparent;
             border: 1px solid var(--brand-gold);
             color: var(--brand-gold);
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 20px;
             font-weight: 700;
             text-decoration: none;
@@ -97,122 +73,70 @@
             transition: all 0.3s ease;
         }
 
-        .admin-btn:hover {
+        .back-btn:hover {
             background: var(--brand-gold);
             color: #000;
         }
 
-        /* Container */
-        .article-wrapper {
+        main {
             max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        .article-card {
+        .article-container {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
 
-        .article-img {
-            width: 100%;
-            max-height: 480px;
-            object-fit: cover;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .article-body {
-            padding: 35px 30px;
-        }
-
-        .article-meta {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            font-size: 0.88rem;
+        .article-date {
             color: var(--brand-gold);
+            font-size: 0.9rem;
             font-weight: 700;
+            margin-bottom: 15px;
         }
 
         .article-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 900;
             color: var(--brand-silver);
             margin-bottom: 25px;
             line-height: 1.4;
         }
 
-        .article-content {
-            color: #CBD5E1;
-            font-size: 1.1rem;
-            white-space: pre-wrap;
-            word-break: break-word;
-            margin-bottom: 35px;
-        }
-
-        /* Share Section */
-        .share-section {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .share-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--brand-silver);
-        }
-
-        .share-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-action {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--card-border);
-            color: var(--brand-silver);
-            padding: 8px 16px;
+        .article-img {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
             border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .btn-action:hover {
-            background: rgba(255, 184, 0, 0.1);
-            border-color: var(--brand-gold);
-            color: var(--brand-gold);
+        .article-body {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            white-space: pre-line;
+            line-height: 2;
         }
 
-        /* Loading & Error */
-        .state-container {
+        .loading-container {
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 0;
             color: var(--text-muted);
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border: 4px solid rgba(255,184,0,0.2);
             border-top: 4px solid var(--brand-gold);
             border-radius: 50%;
             animation: spin 0.9s linear infinite;
-            margin: 0 auto 20px auto;
+            margin: 0 auto 15px auto;
         }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -222,136 +146,73 @@
 
     <header>
         <div class="navbar">
-            <a href="https://abdohady215-lang.github.io/" class="brand-logo">ZONE <span>SPORT</span></a>
-            <div class="nav-links">
-                <a href="https://abdohady215-lang.github.io/" class="nav-btn">الرئيسية 🏠</a>
-                <a href="https://abdohady215-lang.github.io/admin.html" class="admin-btn">لوحة التحكم ⚙️</a>
-            </div>
+            <a href="index.html" class="brand-logo">ZONE <span>SPORT</span></a>
+            <a href="index.html" class="back-btn">الرئيسية 🏠</a>
         </div>
     </header>
 
-    <div class="article-wrapper">
-        <div id="articleContainer">
-            <div class="state-container">
+    <main>
+        <div class="article-container" id="articleContent">
+            <div class="loading-container">
                 <div class="spinner"></div>
                 <p>جاري تحميل تفاصيل الخبر...</p>
             </div>
         </div>
-    </div>
+    </main>
 
+    <!-- مكتبة Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
-        const SITE_BASE_URL = "https://abdohady215-lang.github.io/";
+        const SUPABASE_URL = 'https://agmmvuhhxiowifpgrsjr.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnbW12dWhoeGlvd2lmcGdyc2pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MjUyMzcsImV4cCI6MjEwMzUwMTIzN30.S7LZudLlNGg7aq_FunAa6cVMaSzTHhG8Z5MI_8OxwtI';
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // استخراج معرف الخبر من الرابط (id)
-        const urlParams = new URLSearchParams(window.location.search);
-        const articleId = urlParams.get('id');
-
-        async function fetchArticleDetails() {
-            const container = document.getElementById('articleContainer');
+        async function loadArticleDetail() {
+            const container = document.getElementById('articleContent');
+            
+            // قراءة الـ id الخاص بالخبر من رابط الصفحة (مثال: article.html?id=5)
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('id');
 
             if (!articleId) {
-                renderError('لم يتم تحديد معرف الخبر.');
+                container.innerHTML = '<div style="text-align:center; color:#ef4444;">عذراً، لم يتم العثور على هذا الخبر.</div>';
                 return;
             }
 
             try {
-                const timestamp = new Date().getTime();
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`);
-                const data = await res.json();
+                const { data, error } = await supabaseClient
+                    .from('articles')
+                    .select('*')
+                    .eq('id', articleId)
+                    .single();
 
-                if (data.ok && data.result.length > 0) {
-                    // البحث عن الخبر عبر الـ ID
-                    const foundItem = data.result.find(item => {
-                        const msg = item.channel_post || item.message;
-                        return msg && String(msg.message_id) === String(articleId);
-                    });
-
-                    if (foundItem) {
-                        const msg = foundItem.channel_post || foundItem.message;
-                        let text = msg.text || msg.caption || "تغطية خاصة - Zone Sport";
-                        
-                        const lines = text.split('\n').filter(l => l.trim() !== '');
-                        let title = lines[0] || "خبر رياضي عاجل";
-                        let fullText = lines.slice(1).join('\n') || text;
-
-                        let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG', {
-                            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-                        });
-
-                        let imgUrl = "logo.png";
-                        if (msg.photo && msg.photo.length > 0) {
-                            const fileId = msg.photo[msg.photo.length - 1].file_id;
-                            imgUrl = await fetchTelegramFile(fileId);
-                        }
-
-                        renderArticle({ id: msg.message_id, title, fullText, date, imgUrl });
-                    } else {
-                        renderError('عفواً، هذا الخبر غير موجود أو تم حذفه.');
-                    }
-                } else {
-                    renderError('تعذر جلب البيانات من السيرفر.');
+                if (error || !data) {
+                    throw new Error('الخبر غير موجود');
                 }
+
+                let dateFormatted = new Date(data.created_at).toLocaleDateString('ar-EG', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+
+                let imageHTML = data.image_url 
+                    ? `<img src="${data.image_url}" class="article-img" onerror="this.remove()" alt="${data.title}">`
+                    : '';
+
+                container.innerHTML = `
+                    <div class="article-date">📅 ${dateFormatted}</div>
+                    <h1 class="article-title">${data.title}</h1>
+                    ${imageHTML}
+                    <div class="article-body">${data.body}</div>
+                `;
+
             } catch (err) {
                 console.error(err);
-                renderError('حدث خطأ أثناء تحميل تفاصيل الخبر.');
+                container.innerHTML = '<div style="text-align:center; color:#ef4444; padding:40px;">حدث خطأ أثناء جلب الخبر أو أن الخبر تم حذفه.</div>';
             }
         }
 
-        function renderArticle(art) {
-            const container = document.getElementById('articleContainer');
-            const currentArticleUrl = `${SITE_BASE_URL}article.html?id=${art.id}`;
-
-            container.innerHTML = `
-                <article class="article-card">
-                    <img src="${art.imgUrl}" class="article-img" onerror="this.src='logo.png'" alt="${art.title}">
-                    <div class="article-body">
-                        <div class="article-meta">
-                            <span>📅 ${art.date}</span>
-                        </div>
-                        <h1 class="article-title">${art.title}</h1>
-                        <div class="article-content">${art.fullText}</div>
-
-                        <div class="share-section">
-                            <span class="share-title">مشاركة الخبر:</span>
-                            <div class="share-buttons">
-                                <button onclick="copyArticleLink('${currentArticleUrl}')" class="btn-action">نسخ الرابط 🔗</button>
-                                <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(art.title + ' ' + currentArticleUrl)}" target="_blank" class="btn-action">واتساب 💬</a>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentArticleUrl)}" target="_blank" class="btn-action">فيسبوك 📘</a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            `;
-        }
-
-        function renderError(msg) {
-            const container = document.getElementById('articleContainer');
-            container.innerHTML = `
-                <div class="state-container">
-                    <h2 style="color: #ef4444; margin-bottom: 10px;">⚠️ خطأ</h2>
-                    <p style="margin-bottom: 20px;">${msg}</p>
-                    <a href="${SITE_BASE_URL}" class="btn-action">العودة للرئيسية 🏠</a>
-                </div>
-            `;
-        }
-
-        async function fetchTelegramFile(fileId) {
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
-                const data = await res.json();
-                if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
-            } catch (e) {}
-            return "logo.png";
-        }
-
-        function copyArticleLink(url) {
-            navigator.clipboard.writeText(url).then(() => {
-                alert('تم نسخ رابط الخبر بنجاح!');
-            });
-        }
-
-        window.onload = fetchArticleDetails;
+        window.onload = loadArticleDetail;
     </script>
 </body>
 </html>
