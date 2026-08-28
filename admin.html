@@ -16,204 +16,70 @@
             --danger: #EF4444;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--dark-bg); color: #ffffff; line-height: 1.6; min-height: 100vh; direction: rtl; text-align: right; }
 
-        body {
-            background-color: var(--dark-bg);
-            color: #ffffff;
-            line-height: 1.6;
-            min-height: 100vh;
-            direction: rtl;
-            text-align: right;
-        }
-
-        .login-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .login-box {
-            background: var(--card-bg);
-            border: 2px solid var(--brand-gold);
-            padding: 40px 30px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-        }
-
+        .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .login-box { background: var(--card-bg); border: 2px solid var(--brand-gold); padding: 40px 30px; border-radius: 16px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); }
         .login-box h2 { color: var(--brand-silver); font-size: 1.8rem; margin-bottom: 10px; }
         .login-box h2 span { color: var(--brand-gold); }
         .login-box p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; }
 
         .login-input, .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            background: #090A0F;
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            outline: none;
+            width: 100%; padding: 12px 15px; background: #090A0F; border: 1px solid var(--card-border);
+            border-radius: 8px; color: #fff; font-size: 1rem; margin-bottom: 15px; outline: none;
         }
-
-        .login-input:focus, .form-control:focus {
-            border-color: var(--brand-gold);
-            box-shadow: 0 0 8px rgba(255, 184, 0, 0.3);
-        }
+        .login-input:focus, .form-control:focus { border-color: var(--brand-gold); box-shadow: 0 0 8px rgba(255, 184, 0, 0.3); }
 
         .login-btn, .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background: var(--brand-gold);
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: opacity 0.2s;
+            width: 100%; padding: 12px; background: var(--brand-gold); color: #000; border: none;
+            border-radius: 8px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: opacity 0.2s;
         }
-
         .login-btn:hover, .btn-submit:hover { opacity: 0.9; }
 
-        .error-msg {
-            color: var(--danger);
-            font-size: 0.9rem;
-            margin-top: 15px;
-            display: none;
-            font-weight: 700;
-        }
-
+        .error-msg { color: var(--danger); font-size: 0.9rem; margin-top: 15px; display: none; font-weight: 700; }
         .admin-content { display: none; }
 
-        header {
-            background: rgba(18, 21, 30, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--brand-gold);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        header { background: rgba(18, 21, 30, 0.95); backdrop-filter: blur(10px); border-bottom: 2px solid var(--brand-gold); position: sticky; top: 0; z-index: 100; }
+        .navbar { max-width: 1100px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
         .brand-logo { font-size: 1.4rem; font-weight: 900; color: var(--brand-silver); text-decoration: none; }
         .brand-logo span { color: var(--brand-gold); }
 
         .nav-btns { display: flex; gap: 10px; align-items: center; }
-
-        .btn-site {
-            background: var(--brand-gold);
-            color: #000;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: 800;
-            text-decoration: none;
-            font-size: 0.85rem;
-        }
-
-        .logout-btn {
-            background: transparent;
-            border: 1px solid var(--danger);
-            color: var(--danger);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
+        .btn-site { background: var(--brand-gold); color: #000; padding: 6px 16px; border-radius: 20px; font-weight: 800; text-decoration: none; font-size: 0.85rem; }
+        .logout-btn { background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
         .logout-btn:hover { background: var(--danger); color: #fff; }
 
         main { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-
-        .form-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 35px;
-        }
-
+        .form-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 25px; border-radius: 12px; margin-bottom: 35px; }
         .form-card h3 { color: var(--brand-gold); margin-bottom: 20px; font-size: 1.3rem; }
-        textarea.form-control { resize: vertical; min-height: 120px; }
+        textarea.form-control { resize: vertical; min-height: 150px; }
+        .file-label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); font-weight: 700; }
 
-        .file-label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-weight: 700;
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--brand-silver);
-            border-bottom: 1px solid var(--card-border);
-            padding-bottom: 10px;
-        }
-
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--card-border);
-        }
-
-        .admin-table th, .admin-table td {
-            padding: 15px;
-            text-align: right;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
+        .page-title { font-size: 1.5rem; margin-bottom: 20px; color: var(--brand-silver); border-bottom: 1px solid var(--card-border); padding-bottom: 10px; }
+        .admin-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); }
+        .admin-table th, .admin-table td { padding: 15px; text-align: right; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         .admin-table th { background: rgba(255, 184, 0, 0.1); color: var(--brand-gold); font-weight: 800; }
         .post-title-cell { max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .btn-delete {
-            background: var(--danger);
-            color: #fff;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
+        .btn-delete { background: var(--danger); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
         .btn-delete:hover { opacity: 0.8; }
     </style>
 </head>
 <body>
 
+    <!-- قسم تسجيل الدخول -->
     <div id="loginSection" class="login-wrapper">
         <div class="login-box">
             <h2>ZONE <span>SPORT</span></h2>
-            <p>أدخل كلمة المرور للوصول للوحة التحكم</p>
+            <p>أدخل كلمة المرور للوصول لوحة التحكم</p>
             <input type="password" id="passInput" class="login-input" placeholder="كلمة المرور..." onkeydown="if(event.key==='Enter') doLogin()">
             <button onclick="doLogin()" class="login-btn">دخول</button>
             <div id="errorText" class="error-msg">كلمة المرور غير صحيحة!</div>
         </div>
     </div>
 
+    <!-- قسم لوحة التحكم الرئيسية -->
     <div id="adminSection" class="admin-content">
         <header>
             <div class="navbar">
@@ -227,11 +93,11 @@
 
         <main>
             <div class="form-card">
-                <h3>إضافة خبر جديد مع صورة</h3>
+                <h3>إضافة خبر جديد بالطابع الكلاسيكي</h3>
                 <input type="text" id="postTitle" class="form-control" placeholder="عنوان الخبر...">
-                <label class="file-label">صورة الخبر (اختر صورة من جهازك):</label>
+                <label class="file-label">صورة الخبر (تتأقلم مع حجمها الطبيعي):</label>
                 <input type="file" id="postImage" class="form-control" accept="image/*">
-                <textarea id="postContent" class="form-control" placeholder="محتوى الخبر التفصيلي..."></textarea>
+                <textarea id="postContent" class="form-control" placeholder="محتوى الخبر الكامل..."></textarea>
                 <button onclick="addNewPost()" class="btn-submit">نشر الخبر الآن</button>
             </div>
 
