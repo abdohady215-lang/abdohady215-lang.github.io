@@ -6,6 +6,85 @@
     <title>Zone Sport - أخبار النادي الأهلي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+    /* --- المقترح الثالث: تأثير زووم ناعم للصورة + إضاءة ذهبية فخمة للكارت عند الماوس --- */
+    .news-card {
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+        position: relative;
+    }
+    
+    .news-img-container {
+        overflow: hidden !important; /* لضمان عدم خروج الصورة عن إطار الكارت أثناء الزووم */
+    }
+
+    .news-img {
+        transition: transform 0.6s ease !important;
+    }
+
+    .news-card:hover .news-img {
+        transform: scale(1.05) !important; /* تكبير ناعم جداً وجذاب للصورة */
+    }
+
+    .news-card:hover {
+        transform: translateY(-6px) !important;
+        box-shadow: 0 12px 30px rgba(255, 184, 0, 0.18), 0 0 15px rgba(255, 184, 0, 0.08) !important;
+        border-color: var(--brand-gold) !important;
+    }
+
+    /* --- المقترح الخامس: عنوان القسم بخط سفلي متدرج وساحر --- */
+    .section-title {
+        position: relative !important;
+        display: inline-block !important;
+        margin-bottom: 30px !important;
+        border-bottom: none !important; /* إلغاء الخط القديم العادي */
+        padding-bottom: 5px !important;
+    }
+
+    .section-title::after {
+        content: '' !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 3px !important;
+        background: linear-gradient(90deg, var(--brand-gold), transparent) !important;
+        border-radius: 2px !important;
+    }
+</style>
+    <style>
+    /* تعديل الهيدر ليصبح الشعار في المنتصف تماماً */
+    .navbar {
+        display: flex !important;
+        justify-content: center !important;
+        position: relative !important;
+    }
+    .brand-logo {
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+    /* إبعاد أي أزرار جانبية (مثل لوحة التحكم أو العودة) عن الشعار لكي لا تتداخل معه */
+    .navbar > *:not(.brand-logo) {
+        position: absolute !important;
+        left: 20px !important;
+    }
+    /* إذا كان الزر على اليسار أو اليمين حسب اتجاه الموقع */
+    .navbar .admin-link, .navbar .back-link {
+        right: 20px !important;
+        left: auto !important;
+    }
+</style>
+    <style>
+    /* تأثير المربع الزجاجي والتبرز عند مرور الماوس */
+    .news-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+    }
+    .news-card:hover {
+        transform: translateY(-8px) scale(1.01) !important;
+        box-shadow: 0 15px 35px rgba(255, 184, 0, 0.15) !important;
+        border-color: var(--brand-gold) !important;
+    }
+</style>
+    <style>
         :root {
             --brand-gold: #FFB800;
             --brand-silver: #E2E8F0;
@@ -71,6 +150,7 @@
     </style>
 </head>
 <body>
+    <script src="fb-fix.js"></script>
 
     <header>
         <div class="navbar">
@@ -143,6 +223,6 @@
             });
         }
     </script>
-    <script src="sync-fix.js"></script>
+    
 </body>
 </html>
