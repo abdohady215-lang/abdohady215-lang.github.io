@@ -31,7 +31,6 @@
             text-align: right;
         }
 
-        /* Navbar */
         header {
             background: rgba(18, 21, 30, 0.95);
             backdrop-filter: blur(10px);
@@ -79,7 +78,6 @@
             color: #000;
         }
 
-        /* Hero Banner */
         .hero {
             text-align: center;
             padding: 40px 20px 20px;
@@ -100,7 +98,6 @@
             font-size: 0.95rem;
         }
 
-        /* Main Grid Container */
         main {
             max-width: 1200px;
             margin: 30px auto;
@@ -113,7 +110,6 @@
             gap: 25px;
         }
 
-        /* News Cards */
         .card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -212,7 +208,6 @@
             color: var(--brand-gold);
         }
 
-        /* Spinner & Empty State */
         .loading-container {
             grid-column: 1 / -1;
             text-align: center;
@@ -257,55 +252,32 @@
     </main>
 
     <script>
-        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
+        // سيتم وضع رابط الـ Apps Script الجديد هنا فور إرساله
+        const SCRIPT_URL = ""; 
 
         async function loadNews() {
             const grid = document.getElementById('newsGrid');
-            const timestamp = new Date().getTime();
+
+            if (!SCRIPT_URL) {
+                grid.innerHTML = '<div class="loading-container"><p>يرجى إضافة رابط الـ Apps Script في الكود.</p></div>';
+                return;
+            }
 
             try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`);
+                const res = await fetch(SCRIPT_URL);
                 const data = await res.json();
 
-                if (data.ok && data.result.length > 0) {
+                if (data && data.length > 0) {
                     const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
                     
-                    const validPosts = data.result
-                        .filter(item => item.channel_post || item.message)
-                        .filter(item => {
-                            const msgId = (item.channel_post || item.message).message_id;
-                            return !hiddenArticles.includes(msgId);
-                        });
+                    const validPosts = data.filter(item => !hiddenArticles.includes(item.id));
 
                     if (validPosts.length === 0) {
                         grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار معروضة حالياً.</p></div>';
                         return;
                     }
 
-                    const articlesPromises = validPosts.reverse().map(async (item) => {
-                        const msg = item.channel_post || item.message;
-                        const msgId = msg.message_id;
-                        let text = msg.text || msg.caption || "تغطية خاصة - Zone Sport";
-                        
-                        const lines = text.split('\n').filter(l => l.trim() !== '');
-                        let title = lines[0] || "خبر رياضي عاجل";
-                        let excerpt = lines.slice(1).join(' ') || text;
-
-                        let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG', {
-                            year: 'numeric', month: 'short', day: 'numeric'
-                        });
-
-                        let imgUrl = null;
-                        if (msg.photo && msg.photo.length > 0) {
-                            const fileId = msg.photo[msg.photo.length - 1].file_id;
-                            imgUrl = await fetchTelegramFile(fileId);
-                        }
-
-                        return { id: msgId, title, excerpt, date, imgUrl };
-                    });
-
-                    const articles = await Promise.all(articlesPromises);
-                    renderCards(articles);
+                    renderCards(validPosts);
 
                 } else {
                     grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار حالياً.</p></div>';
@@ -333,11 +305,11 @@
                 card.innerHTML = `
                     ${imageHTML}
                     <div class="card-body">
-                        <div class="card-date">📅 ${art.date}</div>
+                        <div class="card-date">📅 ${art.date || 'حديث'}</div>
                         <h2 class="card-title">${art.title}</h2>
                         <p class="card-excerpt">${art.excerpt}</p>
                         <div class="card-footer">
-                            <a href="${detailUrl}" class="btn-read">اقرأ الخبر كاملاً </a>
+                            <a href="${detailUrl}" class="btn-read">اقرأ الخبر كاملاً</a>
                             <button onclick="copyPostLink(${art.id})" class="btn-share">مشاركة 🔗</button>
                         </div>
                     </div>
@@ -351,15 +323,6 @@
                     targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
             }
-        }
-
-        async function fetchTelegramFile(fileId) {
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
-                const data = await res.json();
-                if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
-            } catch (e) {}
-            return null;
         }
 
         function copyPostLink(id) {
