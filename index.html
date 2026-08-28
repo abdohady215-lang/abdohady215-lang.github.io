@@ -1,11 +1,37 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <link rel="stylesheet" href="style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9GJKPFFFKT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-9GJKPFFFKT');
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zone Sport - المنصة الإخبارية الرياضية الشاملة</title>
+    <meta name="description" content="التغطية الأسرع والأشمل للأخبار الرياضية بالنادي الأهلي والمحلية والعالمية.">
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zonesport.me/">
+    <meta property="og:title" content="Zone Sport - المنصة الإخبارية الرياضية الشاملة">
+    <meta property="og:description" content="التغطية الأسرع والأشمل للأخبار الرياضية بالنادي الأهلي والمحلية والعالمية.">
+    <meta property="og:image" content="logo.png">
+
+    <!-- Twitter / X Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Zone Sport - المنصة الإخبارية الرياضية الشاملة">
+    <meta name="twitter:description" content="التغطية الأسرع والأشمل للأخبار الرياضية بالنادي الأهلي والمحلية والعالمية.">
+    <meta name="twitter:image" content="logo.png">
+
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --brand-gold: #FFB800;
@@ -477,7 +503,6 @@
             });
         }
 
-        // دالة نسخ رابط قصير ونظيف للخبر
         function copyPostLink(postId) {
             const shortUrl = `${window.location.origin}${window.location.pathname}#post-${postId}`;
             
