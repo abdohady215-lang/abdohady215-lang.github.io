@@ -257,109 +257,67 @@
     </main>
 
     <script>
-        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
+        // رابط السيرفر المحدث الخاص بك
+        const API_URL = "https://script.google.com/macros/s/AKfycbwgXpPRlBQqWqaV5pV7JGMD2bJgq-XjJbTSQuk5sViNrOmWinpMDfCUDYouhyVEZM3Fug/exec";
 
         async function loadNews() {
             const grid = document.getElementById('newsGrid');
-            const timestamp = new Date().getTime();
 
             try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`);
-                const data = await res.json();
+                const response = await fetch(API_URL);
+                const data = await response.json();
 
-                if (data.ok && data.result.length > 0) {
-                    const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
-                    
-                    const validPosts = data.result
-                        .filter(item => item.channel_post || item.message)
-                        .filter(item => {
-                            const msgId = (item.channel_post || item.message).message_id;
-                            return !hiddenArticles.includes(msgId);
-                        });
-
-                    if (validPosts.length === 0) {
-                        grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار معروضة حالياً.</p></div>';
-                        return;
-                    }
-
-                    const articlesPromises = validPosts.reverse().map(async (item) => {
-                        const msg = item.channel_post || item.message;
-                        const msgId = msg.message_id;
-                        let text = msg.text || msg.caption || "تغطية خاصة - Zone Sport";
-                        
-                        const lines = text.split('\n').filter(l => l.trim() !== '');
-                        let title = lines[0] || "خبر رياضي عاجل";
-                        let excerpt = lines.slice(1).join(' ') || text;
-
-                        let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG', {
-                            year: 'numeric', month: 'short', day: 'numeric'
-                        });
-
-                        let imgUrl = null;
-                        if (msg.photo && msg.photo.length > 0) {
-                            const fileId = msg.photo[msg.photo.length - 1].file_id;
-                            imgUrl = await fetchTelegramFile(fileId);
-                        }
-
-                        return { id: msgId, title, excerpt, date, imgUrl };
-                    });
-
-                    const articles = await Promise.all(articlesPromises);
-                    renderCards(articles);
-
-                } else {
-                    grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار حالياً.</p></div>';
+                if (!data || data.length === 0) {
+                    grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار منشورة حالياً. ابعت خبر للبوت وهينزل هنا فوراً!</p></div>';
+                    return;
                 }
+
+                const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
+                const validPosts = data.filter(art => !hiddenArticles.includes(art.id));
+
+                if (validPosts.length === 0) {
+                    grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار معروضة حالياً.</p></div>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+
+                validPosts.forEach((art) => {
+                    const detailUrl = `article.html?id=${art.id}`;
+                    
+                    const imageHTML = art.imgUrl 
+                        ? `<img src="${art.imgUrl}" class="card-img" onerror="this.remove()" alt="${art.title}">`
+                        : '';
+
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.id = `post-${art.id}`;
+                    card.innerHTML = `
+                        ${imageHTML}
+                        <div class="card-body">
+                            <div class="card-date">📅 ${art.date}</div>
+                            <h2 class="card-title">${art.title}</h2>
+                            <p class="card-excerpt">${art.excerpt}</p>
+                            <div class="card-footer">
+                                <a href="${detailUrl}" class="btn-read">اقرأ الخبر كاملاً </a>
+                                <button onclick="copyPostLink(${art.id})" class="btn-share">مشاركة 🔗</button>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                if (window.location.hash) {
+                    const targetElement = document.querySelector(window.location.hash);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+
             } catch (err) {
                 console.error(err);
                 grid.innerHTML = '<div class="loading-container" style="color:#ef4444;"><p>حدث خطأ أثناء تحميل الأخبار.</p></div>';
             }
-        }
-
-        function renderCards(articles) {
-            const grid = document.getElementById('newsGrid');
-            grid.innerHTML = '';
-
-            articles.forEach(art => {
-                const detailUrl = `article.html?id=${art.id}`;
-                
-                const imageHTML = art.imgUrl 
-                    ? `<img src="${art.imgUrl}" class="card-img" onerror="this.remove()" alt="${art.title}">`
-                    : '';
-
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.id = `post-${art.id}`;
-                card.innerHTML = `
-                    ${imageHTML}
-                    <div class="card-body">
-                        <div class="card-date">📅 ${art.date}</div>
-                        <h2 class="card-title">${art.title}</h2>
-                        <p class="card-excerpt">${art.excerpt}</p>
-                        <div class="card-footer">
-                            <a href="${detailUrl}" class="btn-read">اقرأ الخبر كاملاً </a>
-                            <button onclick="copyPostLink(${art.id})" class="btn-share">مشاركة 🔗</button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-
-            if (window.location.hash) {
-                const targetElement = document.querySelector(window.location.hash);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        }
-
-        async function fetchTelegramFile(fileId) {
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
-                const data = await res.json();
-                if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
-            } catch (e) {}
-            return null;
         }
 
         function copyPostLink(id) {
@@ -370,6 +328,8 @@
         }
 
         window.onload = loadNews;
+        // تحديث تلقائي كل 10 ثواني عشان لو نشرت خبر جديد ينزل لوحده
+        setInterval(loadNews, 10000);
     </script>
 </body>
 </html>
