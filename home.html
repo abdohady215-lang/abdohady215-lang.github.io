@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zone Sport - الأخبار</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-gold: #FFB800;
+            --brand-silver: #E2E8F0;
+            --dark-bg: #090A0F;
+            --card-bg: #12151E;
+            --card-border: rgba(255, 184, 0, 0.15);
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            line-height: 1.6;
+            direction: rtl;
+            text-align: right;
+        }
+
+        header {
+            background: rgba(18, 21, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--brand-gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--brand-silver);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .brand-logo span {
+            color: var(--brand-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 184, 0, 0.1);
+        }
+
+        /* حاوية الصورة المتكيفة - تختفي تلقائياً لو مفيش صورة */
+        .card-image-container {
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-color: transparent;
+        }
+
+        .card-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-date {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--brand-silver);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .card-excerpt {
+            color: #CBD5E1;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            flex-grow: 1;
+            white-space: pre-line;
+        }
+
+        .loading-text {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 50px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="#" class="brand-logo">ZONE <span>SPORT</span></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="news-grid" id="newsGrid">
+            <div class="loading-text">جاري تحميل أحدث الأخبار...</div>
+        </div>
+    </main>
+
+    <script>
+        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
+
+        async function fetchTelegramNews() {
+            const grid = document.getElementById('newsGrid');
+
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`);
+                const data = await res.json();
+
+                if (data.ok && data.result.length > 0) {
+                    grid.innerHTML = '';
+
+                    const posts = data.result.reverse();
+
+                    for (const item of posts) {
+                        const msg = item.channel_post || item.message;
+                        if (!msg) continue;
+
+                        let fullText = msg.text || msg.caption || "";
+                        if (!fullText.trim() && !msg.photo) continue;
+
+                        let lines = fullText.split('\n');
+                        let title = lines[0] || "خبر من Zone Sport";
+                        let content = lines.slice(1).join('\n') || title;
+                        let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG');
+
+                        let imageUrl = null;
+                        if (msg.photo && msg.photo.length > 0) {
+                            const fileId = msg.photo[msg.photo.length - 1].file_id;
+                            imageUrl = await getFilePath(fileId);
+                        }
+
+                        let imageHTML = '';
+                        if (imageUrl) {
+                            imageHTML = `
+                                <div class="card-image-container">
+                                    <img src="${imageUrl}" alt="${title}">
+                                </div>
+                            `;
+                        }
+
+                        const cardHTML = `
+                            <article class="news-card">
+                                ${imageHTML}
+                                <div class="card-body">
+                                    <span class="card-date">📅 ${date}</span>
+                                    <h2 class="card-title">${title}</h2>
+                                    <p class="card-excerpt">${content}</p>
+                                </div>
+                            </article>
+                        `;
+
+                        grid.insertAdjacentHTML('beforeend', cardHTML);
+                    }
+                } else {
+                    grid.innerHTML = '<div class="loading-text">لا توجد أخبار حالياً.</div>';
+                }
+            } catch (err) {
+                grid.innerHTML = '<div class="loading-text">حدث خطأ في تحميل الأخبار.</div>';
+            }
+        }
+
+        async function getFilePath(fileId) {
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
+                const data = await res.json();
+                if (data.ok) {
+                    return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        window.onload = fetchTelegramNews;
+    </script>
+</body>
+</html>
