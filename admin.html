@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5179431800227143"
-     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zone Sport - لوحة التحكم والإدارة</title>
+    <title>لوحة التحكم - Zone Sport</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,8 +13,8 @@
             --card-bg: #12151E;
             --card-border: rgba(255, 184, 0, 0.15);
             --text-muted: #94A3B8;
-            --danger-red: #EF4444;
-            --success-green: #10B981;
+            --danger: #EF4444;
+            --success: #10B981;
         }
 
         * {
@@ -35,7 +33,6 @@
             text-align: right;
         }
 
-        /* Navbar */
         header {
             background: rgba(18, 21, 30, 0.95);
             backdrop-filter: blur(10px);
@@ -43,11 +40,10 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
         }
 
         .navbar {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 15px 20px;
             display: flex;
@@ -56,153 +52,79 @@
         }
 
         .brand-logo {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 900;
             color: var(--brand-silver);
             text-decoration: none;
         }
 
-        .brand-logo span {
-            color: var(--brand-gold);
-        }
+        .brand-logo span { color: var(--brand-gold); }
 
-        .back-btn {
-            background: transparent;
-            border: 1px solid var(--brand-gold);
-            color: var(--brand-gold);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
+        .btn-site {
             background: var(--brand-gold);
             color: #000;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            text-decoration: none;
+            font-size: 0.85rem;
         }
 
-        /* Admin Dashboard Container */
         main {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 30px auto;
             padding: 0 20px;
         }
 
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-        }
-
-        .dashboard-title h2 {
+        .page-title {
             font-size: 1.6rem;
+            margin-bottom: 20px;
             color: var(--brand-silver);
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
         }
 
-        .dashboard-title p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            padding: 15px 20px;
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            text-align: center;
-        }
-
-        .stat-card h3 {
-            font-size: 1.8rem;
-            color: var(--brand-gold);
-        }
-
-        .stat-card p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        /* Articles Table */
-        .table-container {
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            overflow-x: auto;
-        }
-
-        table {
+        .admin-table {
             width: 100%;
             border-collapse: collapse;
-            text-align: right;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
         }
 
-        th, td {
-            padding: 14px 18px;
+        .admin-table th, .admin-table td {
+            padding: 15px;
+            text-align: right;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        th {
-            background: #181c28;
+        .admin-table th {
+            background: rgba(255, 184, 0, 0.1);
             color: var(--brand-gold);
-            font-size: 0.95rem;
+            font-weight: 800;
         }
 
-        tr:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .article-thumb {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .title-cell {
-            font-weight: 700;
-            max-width: 300px;
+        .post-title-cell {
+            max-width: 400px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .status-badge {
+        .badge {
             padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
             font-weight: 700;
         }
 
-        .status-visible {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success-green);
-            border: 1px solid var(--success-green);
-        }
-
-        .status-hidden {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger-red);
-            border: 1px solid var(--danger-red);
-        }
+        .badge-visible { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .badge-hidden { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
 
         .btn-toggle {
             padding: 6px 14px;
-            border-radius: 8px;
+            border-radius: 6px;
             border: none;
             font-weight: 700;
             cursor: pointer;
@@ -210,181 +132,102 @@
             transition: opacity 0.2s;
         }
 
-        .btn-hide {
-            background: var(--danger-red);
-            color: #fff;
-        }
+        .btn-hide { background: var(--danger); color: #fff; }
+        .btn-show { background: var(--success); color: #fff; }
 
-        .btn-show {
-            background: var(--success-green);
-            color: #fff;
-        }
-
-        .btn-toggle:hover {
-            opacity: 0.85;
-        }
-
-        .spinner-box {
+        .spinner-container {
             text-align: center;
-            padding: 50px 0;
+            padding: 40px;
             color: var(--text-muted);
         }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255,184,0,0.3);
-            border-top: 4px solid var(--brand-gold);
-            border-radius: 50%;
-            animation: spin 0.9s linear infinite;
-            margin: 0 auto 10px auto;
-        }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <header>
         <div class="navbar">
-            <a href="index.html" class="brand-logo">ZONE <span>SPORT</span> - الإدارة</a>
-            <a href="index.html" class="back-btn">العودة للموقع 🏠</a>
+            <a href="https://abdohady215-lang.github.io/" class="brand-logo">ZONE <span>SPORT</span> - الإدارة</a>
+            <a href="https://abdohady215-lang.github.io/" class="btn-site">عرض الموقع 🌐</a>
         </div>
     </header>
 
     <main>
-        <div class="dashboard-header">
-            <div class="dashboard-title">
-                <h2>إدارة أخبار القناة</h2>
-                <p>إظهار وإخفاء المنشورات المسحوبة من تليجرام في الموقع الرئيسي</p>
-            </div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3 id="totalCount">0</h3>
-                <p>إجمالي الأخبار</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="visibleCount">0</h3>
-                <p>الأخبار المعروضة</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="hiddenCount">0</h3>
-                <p>الأخبار المخفية</p>
-            </div>
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>الصورة</th>
-                        <th>العنوان</th>
-                        <th>التاريخ</th>
-                        <th>الحالة</th>
-                        <th>الإجراء</th>
-                    </tr>
-                </thead>
-                <tbody id="adminTableBody">
-                    <tr>
-                        <td colspan="5">
-                            <div class="spinner-box">
-                                <div class="spinner"></div>
-                                <p>جاري تحميل قائمة الأخبار...</p>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <h1 class="page-title">⚙️ إدارة عرض الأخبار</h1>
+        
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th># المعرف</th>
+                    <th>عنوان الخبر</th>
+                    <th>التاريخ</th>
+                    <th>الحالة</th>
+                    <th>الإجراء</th>
+                </tr>
+            </thead>
+            <tbody id="adminGrid">
+                <tr>
+                    <td colspan="5" class="spinner-container">جاري جلب المنشورات...</td>
+                </tr>
+            </tbody>
+        </table>
     </main>
 
     <script>
         const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
-        let articlesList = [];
 
-        async function loadAdminArticles() {
+        async function fetchAdminPosts() {
+            const tbody = document.getElementById('adminGrid');
+            const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
             const timestamp = new Date().getTime();
 
             try {
                 const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`);
                 const data = await res.json();
-                const tbody = document.getElementById('adminTableBody');
 
                 if (data.ok && data.result.length > 0) {
-                    const validPosts = data.result.filter(item => item.channel_post || item.message);
-                    const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
+                    tbody.innerHTML = '';
 
-                    const articlesPromises = validPosts.reverse().map(async (item) => {
+                    const validPosts = data.result
+                        .filter(item => item.channel_post || item.message)
+                        .reverse();
+
+                    validPosts.forEach(item => {
                         const msg = item.channel_post || item.message;
-                        const msgId = msg.message_id;
-
-                        let text = msg.text || msg.caption || "تغطية خاصة - Zone Sport";
+                        const id = msg.message_id;
+                        let text = msg.text || msg.caption || "خبر بدون عنوان";
                         let title = text.split('\n')[0];
-                        let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG', {
-                            year: 'numeric', month: 'short', day: 'numeric'
-                        });
+                        let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG');
+                        const isHidden = hiddenArticles.includes(id);
 
-                        let imgUrl = "logo.png";
-                        if (msg.photo && msg.photo.length > 0) {
-                            const fileId = msg.photo[msg.photo.length - 1].file_id;
-                            imgUrl = await fetchTelegramFile(fileId);
-                        }
-
-                        const isHidden = hiddenArticles.includes(msgId);
-                        return { id: msgId, title, date, imgUrl, isHidden };
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td><code>#${id}</code></td>
+                            <td class="post-title-cell">${title}</td>
+                            <td>${date}</td>
+                            <td>
+                                <span class="badge ${isHidden ? 'badge-hidden' : 'badge-visible'}">
+                                    ${isHidden ? 'مخفي' : 'معروض'}
+                                </span>
+                            </td>
+                            <td>
+                                <button onclick="toggleVisibility(${id})" class="btn-toggle ${isHidden ? 'btn-show' : 'btn-hide'}">
+                                    ${isHidden ? 'إظهار 👁️' : 'إخفاء 🚫'}
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
                     });
-
-                    articlesList = await Promise.all(articlesPromises);
-                    renderAdminTable();
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">لا توجد منشورت في القناة.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">لا توجد منشورات.</td></tr>';
                 }
             } catch (err) {
-                console.error(err);
-                document.getElementById('adminTableBody').innerHTML = '<tr><td colspan="5" style="text-align:center; color:#ef4444;">حدث خطأ في تحميل البيانات.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--danger);">خطأ في جلب البيانات.</td></tr>';
             }
         }
 
-        function renderAdminTable() {
-            const tbody = document.getElementById('adminTableBody');
-            tbody.innerHTML = '';
-
-            let hiddenCount = 0;
-            let visibleCount = 0;
-
-            articlesList.forEach(art => {
-                if (art.isHidden) hiddenCount++;
-                else visibleCount++;
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><img src="${art.imgUrl}" class="article-thumb" onerror="this.src='logo.png'"></td>
-                    <td class="title-cell" title="${art.title}">${art.title}</td>
-                    <td>${art.date}</td>
-                    <td>
-                        <span class="status-badge ${art.isHidden ? 'status-hidden' : 'status-visible'}">
-                            ${art.isHidden ? 'مخفي' : 'معروض'}
-                        </span>
-                    </td>
-                    <td>
-                        <button onclick="toggleArticleStatus(${art.id})" class="btn-toggle ${art.isHidden ? 'btn-show' : 'btn-hide'}">
-                            ${art.isHidden ? 'إظهار 👁️' : 'إخفاء 🙈'}
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            document.getElementById('totalCount').innerText = articlesList.length;
-            document.getElementById('visibleCount').innerText = visibleCount;
-            document.getElementById('hiddenCount').innerText = hiddenCount;
-        }
-
-        function toggleArticleStatus(id) {
+        function toggleVisibility(id) {
             let hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
-
+            
             if (hiddenArticles.includes(id)) {
                 hiddenArticles = hiddenArticles.filter(item => item !== id);
             } else {
@@ -392,26 +235,10 @@
             }
 
             localStorage.setItem('hidden_articles', JSON.stringify(hiddenArticles));
-
-            // التحديث المحلي للقائمة
-            const article = articlesList.find(a => a.id === id);
-            if (article) {
-                article.isHidden = !article.isHidden;
-            }
-
-            renderAdminTable();
+            fetchAdminPosts();
         }
 
-        async function fetchTelegramFile(fileId) {
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
-                const data = await res.json();
-                if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
-            } catch (e) {}
-            return "logo.png";
-        }
-
-        window.onload = loadAdminArticles;
+        window.onload = fetchAdminPosts;
     </script>
 </body>
 </html>
