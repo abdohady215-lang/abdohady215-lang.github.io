@@ -57,13 +57,17 @@
         .file-label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); font-weight: 700; }
 
         .page-title { font-size: 1.5rem; margin-bottom: 20px; color: var(--brand-silver); border-bottom: 1px solid var(--card-border); padding-bottom: 10px; }
-        .admin-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); }
+        
+        .table-responsive { width: 100%; overflow-x: auto; }
+        .admin-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); min-width: 600px; }
         .admin-table th, .admin-table td { padding: 15px; text-align: right; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         .admin-table th { background: rgba(255, 184, 0, 0.1); color: var(--brand-gold); font-weight: 800; }
         .post-title-cell { max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .btn-delete { background: var(--danger); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
         .btn-delete:hover { opacity: 0.8; }
+
+        footer { text-align: center; padding: 30px 20px; margin-top: 50px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -91,30 +95,37 @@
 
         <main>
             <div class="form-card">
-                <h3>إضافة خبر جديد بالطابع الكلاسيكي</h3>
+                <h3>إضافة خبر جديد بالطابع الأهلاوي</h3>
                 <input type="text" id="postTitle" class="form-control" placeholder="عنوان الخبر...">
-                <label class="file-label">صورة الخبر (تتأقلم مع حجمها الطبيعي):</label>
+                <label class="file-label">صورة الخبر (تتأقلم تلقائياً بدون قص):</label>
                 <input type="file" id="postImage" class="form-control" accept="image/*">
                 <textarea id="postContent" class="form-control" placeholder="محتوى الخبر الكامل..."></textarea>
                 <button onclick="addNewPost()" class="btn-submit">نشر الخبر الآن</button>
             </div>
 
             <h1 class="page-title">الأخبار المنشورة</h1>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>الصورة</th>
-                        <th>عنوان الخبر</th>
-                        <th>التاريخ</th>
-                        <th>الإجراء</th>
-                    </tr>
-                </thead>
-                <tbody id="adminGrid">
-                    <tr><td colspan="5" style="text-align:center; padding: 25px;">لا توجد أخبار مسجلة.</td></tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الصورة</th>
+                            <th>عنوان الخبر</th>
+                            <th>التاريخ</th>
+                            <th>الإجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminGrid">
+                        <tr><td colspan="5" style="text-align:center; padding: 25px;">لا توجد أخبار مسجلة.</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </main>
+
+        <footer>
+            <p style="margin-bottom: 5px; font-weight: 700; color: var(--brand-silver);">Zone Sport - لوحة التحكم الإدارية</p>
+            <p>جميع الحقوق محفوظة © 2026</p>
+        </footer>
     </div>
 
     <script>
