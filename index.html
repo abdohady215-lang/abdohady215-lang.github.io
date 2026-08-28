@@ -150,25 +150,6 @@
     </style>
 </head>
 <body>
-    <script src="fb-fix.js"></script>
-
-    <header>
-        <div class="navbar">
-            <a href="index.html" class="brand-logo">ZONE <span>SPORT</span></a>
-            <a href="admin.html" id="adminNavBtn" class="admin-link">لوحة التحكم</a>
-        </div>
-    </header>
-
-    <main>
-        <h2 class="section-title">آخر أخبار النادي الأهلي</h2>
-        <div id="newsFeed" class="news-feed"></div>
-    </main>
-
-    <footer>
-        <p style="margin-bottom: 5px; font-weight: 700; color: var(--brand-silver);">Zone Sport - نبض النادي الأهلي</p>
-        <p>جميع الحقوق محفوظة © 2026 | إشراف وإدارة البيج</p>
-    </footer>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (sessionStorage.getItem("is_admin_logged") === "true") {
@@ -176,10 +157,22 @@
             }
 
             const feed = document.getElementById('newsFeed');
-            const posts = JSON.parse(localStorage.getItem('zone_sport_posts') || '[]');
+            
+            let posts = [];
+            try {
+                posts = JSON.parse(localStorage.getItem('zone_sport_posts') || '[]');
+            } catch(e) {
+                posts = [];
+            }
 
             if (posts.length === 0) {
-                feed.innerHTML = '<div class="empty-box">لا توجد أخبار مضافة حتى الآن.</div>';
+                feed.innerHTML = `
+                    <div class="empty-box" style="text-align: center; padding: 30px;">
+                        <p style="color: var(--brand-gold); font-weight: 700; margin-bottom: 15px;">⚠️ ملاحظة لزوار فيسبوك:</p>
+                        <p style="margin-bottom: 20px; font-size: 0.95rem;">لأسباب أمنية خاصة بمتصفح فيسبوك الداخلي، يرجى فتح الموقع من متصفح خارجي (جوجل كروم) لعرض الأخبار.</p>
+                        <a href="${window.location.href}" target="_blank" class="action-btn" style="display: inline-block; padding: 10px 20px; text-decoration: none;">🌐 فتح في المتصفح الخارجي</a>
+                    </div>
+                `;
                 return;
             }
 
@@ -194,18 +187,20 @@
                     </div>
                 ` : '';
 
-                const articleUrl = `${window.location.origin}${window.location.pathname.replace('index.html', '')}article.html?id=${post.id}`;
+                const articleUrl = `article.html?id=${post.id}`;
+
+                let shortContent = post.content.length > 150 ? post.content.substring(0, 150) + "..." : post.content;
 
                 card.innerHTML = `
                     ${imgHtml}
                     <div class="news-content">
                         <span class="news-date">📅 ${post.date}</span>
                         <h3 class="news-title">${post.title}</h3>
-                        <div class="news-body">${post.content}</div>
+                        <div class="news-body">${shortContent}</div>
                         
                         <div class="card-actions">
-                            <a href="article.html?id=${post.id}" class="action-btn">🔗 التفاصيل</a>
-                            <button onclick="copyArticleLink('${articleUrl}', this)" class="action-btn">📋 نسخ الرابط</button>
+                            <a href="${articleUrl}" class="action-btn">🔗 التفاصيل</a>
+                            <button onclick="copyArticleLink('${window.location.origin + window.location.pathname.replace('index.html', '')}${articleUrl}', this)" class="action-btn">📋 نسخ الرابط</button>
                         </div>
                     </div>
                 `;
@@ -223,6 +218,22 @@
             });
         }
     </script>
-    
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="brand-logo">ZONE <span>SPORT</span></a>
+            <a href="admin.html" id="adminNavBtn" class="admin-link">لوحة التحكم</a>
+        </div>
+    </header>
+
+    <main>
+        <h2 class="section-title">آخر أخبار النادي الأهلي</h2>
+        <div id="newsFeed" class="news-feed"></div>
+    </main>
+
+    <footer>
+        <p style="margin-bottom: 5px; font-weight: 700; color: var(--brand-silver);">Zone Sport - نبض النادي الأهلي</p>
+        <p>جميع الحقوق محفوظة © 2026 | إشراف وإدارة البيج</p>
+    </footer>
 </body>
 </html>
