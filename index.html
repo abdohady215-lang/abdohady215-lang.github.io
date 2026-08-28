@@ -14,10 +14,15 @@
     
     .news-img-container {
         overflow: hidden !important; /* لضمان عدم خروج الصورة عن إطار الكارت أثناء الزووم */
+        height: 200px !important;
+        background: #000 !important;
     }
 
     .news-img {
         transition: transform 0.6s ease !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
     }
 
     .news-card:hover .news-img {
@@ -104,7 +109,7 @@
             position: sticky; top: 0; z-index: 100;
         }
 
-        .navbar { max-width: 800px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar { max-width: 1100px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
         .brand-logo { font-size: 1.6rem; font-weight: 900; color: var(--brand-silver); text-decoration: none; }
         .brand-logo span { color: var(--brand-gold); }
 
@@ -115,36 +120,48 @@
         }
         .admin-link:hover { background: var(--brand-gold); color: #000; }
 
-        main { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        main { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
         .section-title { font-size: 1.5rem; margin-bottom: 25px; color: var(--brand-silver); border-bottom: 2px solid var(--card-border); padding-bottom: 10px; }
 
-        .news-feed { display: flex; flex-direction: column; gap: 25px; }
+        /* تعديل شبكة الأخبار لتكون جنب بعض بشكل احترافي */
+        .news-feed { 
+            display: grid !important; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important; 
+            gap: 25px !important; 
+        }
 
         .news-card {
             background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px;
-            overflow: hidden; display: flex; flex-direction: column;
+            overflow: hidden; display: flex !important; flex-direction: column !important;
+            height: 100% !important;
         }
 
-        .news-img-container { width: 100%; background: #000; text-align: center; }
-        .news-img { width: 100%; height: auto; max-height: 550px; object-fit: contain; display: block; margin: 0 auto; }
-
-        .news-content { padding: 25px; display: flex; flex-direction: column; }
+        .news-content { padding: 20px; display: flex !important; flex-direction: column !important; flex-grow: 1 !important; }
         .news-date { font-size: 0.85rem; color: var(--brand-gold); margin-bottom: 10px; font-weight: 700; }
-        .news-title { font-size: 1.3rem; font-weight: 900; color: #fff; margin-bottom: 15px; line-height: 1.4; }
+        .news-title { font-size: 1.2rem; font-weight: 900; color: #fff; margin-bottom: 12px; line-height: 1.4; }
         
-        .news-body { font-size: 1.05rem; color: var(--text-muted); white-space: pre-line; margin-bottom: 25px; line-height: 1.8; }
+        .news-body { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.7; flex-grow: 1 !important; }
 
         .card-actions {
-            display: flex; gap: 10px; border-top: 1px solid var(--card-border); padding-top: 15px; margin-top: 5px;
+            display: flex; gap: 10px; border-top: 1px solid var(--card-border); padding-top: 12px; margin-top: auto !important;
         }
         .action-btn {
             flex: 1; text-align: center; background: rgba(255, 184, 0, 0.08); color: var(--brand-gold);
-            border: 1px solid var(--brand-gold); padding: 10px; border-radius: 8px; font-weight: 700;
-            text-decoration: none; font-size: 0.9rem; transition: 0.2s; cursor: pointer;
+            border: 1px solid var(--brand-gold); padding: 8px; border-radius: 8px; font-weight: 700;
+            text-decoration: none; font-size: 0.85rem; transition: 0.2s; cursor: pointer;
         }
         .action-btn:hover { background: var(--brand-gold); color: #000; }
 
-        .empty-box { text-align: center; padding: 50px; color: var(--text-muted); font-size: 1.1rem; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--card-border); }
+        .empty-box { 
+            grid-column: 1 / -1 !important;
+            text-align: center; 
+            padding: 40px 20px; 
+            color: var(--text-muted); 
+            font-size: 1.1rem; 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            border: 1px solid var(--card-border); 
+        }
 
         footer { text-align: center; padding: 30px 20px; margin-top: 50px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.9rem; }
     </style>
@@ -172,7 +189,7 @@
                 if (isFacebook) {
                     feed.innerHTML = `
                         <div class="empty-box" style="text-align: center; padding: 40px 20px; background: rgba(255, 184, 0, 0.05); border: 2px dashed var(--brand-gold);">
-                            <h3 style="color: var(--brand-gold); font-size: 1.4rem; margin-bottom: 15px;"> تنبيه هام لزوار فيسبوك</h3>
+                            <h3 style="color: var(--brand-gold); font-size: 1.4rem; margin-bottom: 15px;">⚠️ تنبيه هام لزوار فيسبوك</h3>
                             <p style="margin-bottom: 25px; font-size: 1.05rem; line-height: 1.8;">متصفح فيسبوك الداخلي يمنع عرض الأخبار لأسباب أمنية. يرجى الضغط على الزر أدناه لفتح الموقع في <strong>جوجل كروم</strong> واستعراض كافة الأخبار:</p>
                             <a href="${window.location.href}" target="_blank" class="action-btn" style="display: block; padding: 15px; font-size: 1.1rem; background: var(--brand-gold); color: #000; text-decoration: none; border-radius: 10px; font-weight: 900; box-shadow: 0 5px 15px rgba(255,184,0,0.3);">
                                 🌐 اضغط هنا لفتح الموقع في متصفح كروم
@@ -184,9 +201,6 @@
                 }
                 return;
             }
-
-           
-            
 
             feed.innerHTML = '';
             posts.forEach(post => {
@@ -201,7 +215,7 @@
 
                 const articleUrl = `article.html?id=${post.id}`;
 
-                let shortContent = post.content.length > 150 ? post.content.substring(0, 150) + "..." : post.content;
+                let shortContent = post.content.length > 120 ? post.content.substring(0, 120) + "..." : post.content;
 
                 card.innerHTML = `
                     ${imgHtml}
@@ -211,8 +225,8 @@
                         <div class="news-body">${shortContent}</div>
                         
                         <div class="card-actions">
-                            <a href="${articleUrl}" class="action-btn"> التفاصيل</a>
-                            <button onclick="copyArticleLink('${window.location.origin + window.location.pathname.replace('index.html', '')}${articleUrl}', this)" class="action-btn"> نسخ الرابط</button>
+                            <a href="${articleUrl}" class="action-btn">التفاصيل</a>
+                            <button onclick="copyArticleLink('${window.location.origin + window.location.pathname.replace('index.html', '')}${articleUrl}', this)" class="action-btn">نسخ الرابط</button>
                         </div>
                     </div>
                 `;
@@ -223,7 +237,7 @@
         function copyArticleLink(url, btn) {
             navigator.clipboard.writeText(url).then(() => {
                 const originalText = btn.innerHTML;
-                btn.innerHTML = ' تم النسخ';
+                btn.innerHTML = '✅تم النسخ';
                 setTimeout(() => { btn.innerHTML = originalText; }, 2000);
             }).catch(err => {
                 alert('فشل نسخ الرابط');
