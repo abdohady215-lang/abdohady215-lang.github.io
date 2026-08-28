@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zone Sport - الأخبار الرياضية</title>
+    <title>Zone Sport - أخبار النادي الأهلي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -38,11 +38,10 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
         }
 
         .navbar {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 15px 20px;
             display: flex;
@@ -51,18 +50,16 @@
         }
 
         .brand-logo {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: var(--brand-silver);
             text-decoration: none;
         }
 
-        .brand-logo span {
-            color: var(--brand-gold);
-        }
+        .brand-logo span { color: var(--brand-gold); }
 
-        .admin-btn {
-            background: transparent;
+        .admin-link {
+            background: rgba(255, 184, 0, 0.1);
             border: 1px solid var(--brand-gold);
             color: var(--brand-gold);
             padding: 6px 16px;
@@ -70,162 +67,113 @@
             font-weight: 700;
             text-decoration: none;
             font-size: 0.85rem;
-            transition: all 0.3s ease;
+            transition: 0.2s;
         }
 
-        .admin-btn:hover {
+        .admin-link:hover {
             background: var(--brand-gold);
             color: #000;
         }
 
-        .hero {
-            text-align: center;
-            padding: 40px 20px 20px;
-        }
-
-        .hero h1 {
-            font-size: 2.2rem;
-            color: var(--brand-silver);
-            margin-bottom: 8px;
-        }
-
-        .hero h1 span {
-            color: var(--brand-gold);
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
         main {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 30px auto;
             padding: 0 20px;
         }
 
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--brand-silver);
+            border-bottom: 2px solid var(--card-border);
+            padding-bottom: 10px;
         }
 
-        .card {
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .news-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 12px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .card:hover {
+        .news-card:hover {
             transform: translateY(-5px);
             border-color: var(--brand-gold);
         }
 
-        .card-img {
-            width: 100%;
-            height: auto;
-            max-height: 350px;
-            object-fit: cover;
-            display: block;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .card-body {
+        .news-content {
             padding: 20px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
-        .card-date {
+        .news-date {
+            font-size: 0.8rem;
             color: var(--brand-gold);
-            font-size: 0.78rem;
-            font-weight: 700;
             margin-bottom: 8px;
+            font-weight: 700;
         }
 
-        .card-title {
-            font-size: 1.15rem;
+        .news-title {
+            font-size: 1.1rem;
             font-weight: 800;
-            color: var(--brand-silver);
+            color: #fff;
             margin-bottom: 12px;
-            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .card-excerpt {
-            color: var(--text-muted);
+        .news-snippet {
             font-size: 0.9rem;
+            color: var(--text-muted);
             margin-bottom: 20px;
+            flex-grow: 1;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            flex-grow: 1;
         }
 
-        .card-footer {
-            display: flex;
-            gap: 10px;
-            margin-top: auto;
-        }
-
-        .btn-read {
-            flex: 2;
-            background: var(--brand-gold);
-            color: #000;
-            text-align: center;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-weight: 800;
+        .read-more {
+            align-self: flex-start;
+            background: transparent;
+            color: var(--brand-gold);
+            border: 1px solid var(--brand-gold);
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: 700;
             text-decoration: none;
             font-size: 0.85rem;
-            transition: opacity 0.2s;
+            transition: 0.2s;
         }
 
-        .btn-read:hover {
-            opacity: 0.9;
+        .read-more:hover {
+            background: var(--brand-gold);
+            color: #000;
         }
 
-        .btn-share {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--card-border);
-            color: var(--brand-silver);
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: background 0.2s;
-        }
-
-        .btn-share:hover {
-            background: rgba(255, 184, 0, 0.1);
-            color: var(--brand-gold);
-        }
-
-        .loading-container {
+        .empty-box {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 60px 0;
+            padding: 50px;
             color: var(--text-muted);
+            font-size: 1.1rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
         }
-
-        .spinner {
-            width: 45px;
-            height: 45px;
-            border: 4px solid rgba(255,184,0,0.2);
-            border-top: 4px solid var(--brand-gold);
-            border-radius: 50%;
-            animation: spin 0.9s linear infinite;
-            margin: 0 auto 15px auto;
-        }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -233,152 +181,42 @@
     <header>
         <div class="navbar">
             <a href="index.html" class="brand-logo">ZONE <span>SPORT</span></a>
-            <a href="admin.html" class="admin-btn">لوحة التحكم ⚙️</a>
+            <a href="admin.html" class="admin-link">لوحة التحكم</a>
         </div>
     </header>
 
-    <section class="hero">
-        <h1>أحدث <span>الأخبار الرياضية</span></h1>
-        <p>متابعة لحظية وتغطية خاصة لكافة الأحداث والبطولات</p>
-    </section>
-
     <main>
-        <div class="news-grid" id="newsGrid">
-            <div class="loading-container">
-                <div class="spinner"></div>
-                <p>جاري تحميل أحدث الأخبار...</p>
-            </div>
+        <h2 class="section-title">آخر أخبار النادي الأهلي</h2>
+        <div id="newsGrid" class="news-grid">
+            <!-- سيتم تعبئة الأخبار ديناميكياً -->
         </div>
     </main>
 
     <script>
-        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
-
-        async function loadNews() {
+        document.addEventListener('DOMContentLoaded', function() {
             const grid = document.getElementById('newsGrid');
-            const timestamp = new Date().getTime();
+            const posts = JSON.parse(localStorage.getItem('zone_sport_posts') || '[]');
 
-            // استخدام بروكسي آمن لتخطي مشكلة الـ CORS وجلب المنشورات من بوت تليجرام مباشرة
-            const targetUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`;
-            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-
-            try {
-                const res = await fetch(proxyUrl);
-                const wrapper = await res.json();
-                
-                if (!wrapper.contents) {
-                    throw new Error('فشل الاتصال');
-                }
-
-                const data = JSON.parse(wrapper.contents);
-
-                if (data.ok && data.result && data.result.length > 0) {
-                    const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
-                    
-                    const validPosts = data.result
-                        .filter(item => item.channel_post || item.message)
-                        .filter(item => {
-                            const msgId = (item.channel_post || item.message).message_id;
-                            return !hiddenArticles.includes(msgId);
-                        });
-
-                    if (validPosts.length === 0) {
-                        grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار معروضة حالياً.</p></div>';
-                        return;
-                    }
-
-                    const articlesPromises = validPosts.reverse().map(async (item) => {
-                        const msg = item.channel_post || item.message;
-                        const msgId = msg.message_id;
-                        let text = msg.text || msg.caption || "تغطية خاصة - Zone Sport";
-                        
-                        const lines = text.split('\n').filter(l => l.trim() !== '');
-                        let title = lines[0] || "خبر رياضي عاجل";
-                        let excerpt = lines.slice(1).join(' ') || text;
-
-                        let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG', {
-                            year: 'numeric', month: 'short', day: 'numeric'
-                        });
-
-                        let imgUrl = null;
-                        if (msg.photo && msg.photo.length > 0) {
-                            const fileId = msg.photo[msg.photo.length - 1].file_id;
-                            imgUrl = await fetchTelegramFile(fileId);
-                        }
-
-                        return { id: msgId, title, excerpt, date, imgUrl };
-                    });
-
-                    const articles = await Promise.all(articlesPromises);
-                    renderCards(articles);
-
-                } else {
-                    grid.innerHTML = '<div class="loading-container"><p>لا توجد أخبار حالياً.</p></div>';
-                }
-            } catch (err) {
-                console.error(err);
-                grid.innerHTML = '<div class="loading-container" style="color:#ef4444;"><p>حدث خطأ أثناء تحميل الأخبار.</p></div>';
+            if (posts.length === 0) {
+                grid.innerHTML = '<div class="empty-box">لا توجد أخبار مضافة حتى الآن. اذهب إلى لوحة التحكم لإضافة أول خبر!</div>';
+                return;
             }
-        }
 
-        function renderCards(articles) {
-            const grid = document.getElementById('newsGrid');
             grid.innerHTML = '';
-
-            articles.forEach(art => {
-                const detailUrl = `article.html?id=${art.id}`;
-                
-                const imageHTML = art.imgUrl 
-                    ? `<img src="${art.imgUrl}" class="card-img" onerror="this.remove()" alt="${art.title}">`
-                    : '';
-
+            posts.forEach(post => {
                 const card = document.createElement('div');
-                card.className = 'card';
-                card.id = `post-${art.id}`;
+                card.className = 'news-card';
                 card.innerHTML = `
-                    ${imageHTML}
-                    <div class="card-body">
-                        <div class="card-date">📅 ${art.date}</div>
-                        <h2 class="card-title">${art.title}</h2>
-                        <p class="card-excerpt">${art.excerpt}</p>
-                        <div class="card-footer">
-                            <a href="${detailUrl}" class="btn-read">اقرأ الخبر كاملاً</a>
-                            <button onclick="copyPostLink(${art.id})" class="btn-share">مشاركة 🔗</button>
-                        </div>
+                    <div class="news-content">
+                        <span class="news-date">${post.date}</span>
+                        <h3 class="news-title">${post.title}</h3>
+                        <p class="news-snippet">${post.content}</p>
+                        <a href="article.html?id=${post.id}" class="read-more">قراءة المزيد</a>
                     </div>
                 `;
                 grid.appendChild(card);
             });
-
-            if (window.location.hash) {
-                const targetElement = document.querySelector(window.location.hash);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        }
-
-        async function fetchTelegramFile(fileId) {
-            try {
-                const targetUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`;
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-                const res = await fetch(proxyUrl);
-                const wrapper = await res.json();
-                if (!wrapper.contents) return null;
-                const data = JSON.parse(wrapper.contents);
-                if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
-            } catch (e) {}
-            return null;
-        }
-
-        function copyPostLink(id) {
-            const link = `${window.location.origin}${window.location.pathname}#post-${id}`;
-            navigator.clipboard.writeText(link).then(() => {
-                alert('تم نسخ رابط الخبر بنجاح!');
-            });
-        }
-
-        window.onload = loadNews;
+        });
     </script>
 </body>
 </html>

@@ -33,14 +33,13 @@
             text-align: right;
         }
 
-        /* نافذة تسجيل الدخول */
+        /* نافذة الدخول */
         .login-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background: var(--dark-bg);
         }
 
         .login-box {
@@ -68,39 +67,37 @@
             margin-bottom: 25px;
         }
 
-        .login-input {
+        .login-input, .form-control {
             width: 100%;
-            padding: 14px 15px;
+            padding: 12px 15px;
             background: #090A0F;
             border: 1px solid var(--card-border);
             border-radius: 8px;
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 15px;
             outline: none;
-            text-align: center;
-            letter-spacing: 2px;
         }
 
-        .login-input:focus {
+        .login-input:focus, .form-control:focus {
             border-color: var(--brand-gold);
-            box-shadow: 0 0 10px rgba(255, 184, 0, 0.3);
+            box-shadow: 0 0 8px rgba(255, 184, 0, 0.3);
         }
 
-        .login-btn {
+        .login-btn, .btn-submit {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: var(--brand-gold);
             color: #000;
             border: none;
             border-radius: 8px;
             font-weight: 800;
-            font-size: 1.05rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: opacity 0.2s;
         }
 
-        .login-btn:hover { opacity: 0.9; }
+        .login-btn:hover, .btn-submit:hover { opacity: 0.9; }
 
         .error-msg {
             color: var(--danger);
@@ -110,10 +107,8 @@
             font-weight: 700;
         }
 
-        /* لوحة التحكم (مخفية افتراضياً) */
-        .admin-content {
-            display: none;
-        }
+        /* لوحة التحكم الرئيسية */
+        .admin-content { display: none; }
 
         header {
             background: rgba(18, 21, 30, 0.95);
@@ -142,6 +137,8 @@
 
         .brand-logo span { color: var(--brand-gold); }
 
+        .nav-btns { display: flex; gap: 10px; align-items: center; }
+
         .btn-site {
             background: var(--brand-gold);
             color: #000;
@@ -161,7 +158,6 @@
             font-weight: 700;
             font-size: 0.85rem;
             cursor: pointer;
-            margin-left: 10px;
         }
 
         .logout-btn:hover { background: var(--danger); color: #fff; }
@@ -172,8 +168,27 @@
             padding: 0 20px;
         }
 
+        .form-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+        }
+
+        .form-card h3 {
+            color: var(--brand-gold);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
         .page-title {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-bottom: 20px;
             color: var(--brand-silver);
             border-bottom: 1px solid var(--card-border);
@@ -208,27 +223,18 @@
             text-overflow: ellipsis;
         }
 
-        .badge {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-
-        .badge-visible { background: rgba(16, 185, 129, 0.2); color: var(--success); }
-        .badge-hidden { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
-
-        .btn-toggle {
+        .btn-delete {
+            background: var(--danger);
+            color: #fff;
+            border: none;
             padding: 6px 14px;
             border-radius: 6px;
-            border: none;
             font-weight: 700;
             cursor: pointer;
             font-size: 0.8rem;
         }
 
-        .btn-hide { background: var(--danger); color: #fff; }
-        .btn-show { background: var(--success); color: #fff; }
+        .btn-delete:hover { opacity: 0.8; }
     </style>
 </head>
 <body>
@@ -237,7 +243,7 @@
     <div id="loginSection" class="login-wrapper">
         <div class="login-box">
             <h2>ZONE <span>SPORT</span></h2>
-            <p>أدخل كلمة المرور للوصول للإدارة</p>
+            <p>أدخل كلمة المرور للوصول للوحة التحكم</p>
             <input type="password" id="passInput" class="login-input" placeholder="كلمة المرور..." onkeydown="if(event.key==='Enter') doLogin()">
             <button onclick="doLogin()" class="login-btn">دخول</button>
             <div id="errorText" class="error-msg">كلمة المرور غير صحيحة!</div>
@@ -248,29 +254,36 @@
     <div id="adminSection" class="admin-content">
         <header>
             <div class="navbar">
-                <a href="https://abdohady215-lang.github.io/" class="brand-logo">ZONE <span>SPORT</span> - الإدارة</a>
-                <div>
-                    <a href="https://abdohady215-lang.github.io/" class="btn-site">عرض الموقع</a>
+                <a href="index.html" class="brand-logo">ZONE <span>SPORT</span> - الإدارة</a>
+                <div class="nav-btns">
+                    <a href="index.html" class="btn-site">عرض الموقع</a>
                     <button onclick="doLogout()" class="logout-btn">خروج</button>
                 </div>
             </div>
         </header>
 
         <main>
-            <h1 class="page-title">إدارة عرض الأخبار</h1>
+            <!-- فورم إضافة خبر جديد -->
+            <div class="form-card">
+                <h3>إضافة خبر جديد</h3>
+                <input type="text" id="postTitle" class="form-control" placeholder="عنوان الخبر...">
+                <textarea id="postContent" class="form-control" placeholder="محتوى الخبر التفصيلي..."></textarea>
+                <button onclick="addNewPost()" class="btn-submit">نشر الخبر الآن</button>
+            </div>
+
+            <h1 class="page-title">الأخبار المنشورة</h1>
             <table class="admin-table">
                 <thead>
                     <tr>
-                        <th># المعرف</th>
+                        <th>#</th>
                         <th>عنوان الخبر</th>
                         <th>التاريخ</th>
-                        <th>الحالة</th>
                         <th>الإجراء</th>
                     </tr>
                 </thead>
                 <tbody id="adminGrid">
                     <tr>
-                        <td colspan="5" style="text-align:center; padding: 30px;">جاري تحميل الأخبار...</td>
+                        <td colspan="4" style="text-align:center; padding: 25px;">لا توجد أخبار مسجلة.</td>
                     </tr>
                 </tbody>
             </table>
@@ -278,10 +291,8 @@
     </div>
 
     <script>
-        const BOT_TOKEN = "8983307628:AAEsacCBfEE6aCInlJ_2uv8UInmtlKM7W-U";
         const PASSWORD_CORRECT = "Abdo01155943060";
 
-        // التحقق فور تحميل الصفحة
         document.addEventListener("DOMContentLoaded", function() {
             if (sessionStorage.getItem("is_admin_logged") === "true") {
                 openAdmin();
@@ -303,7 +314,7 @@
         function openAdmin() {
             document.getElementById("loginSection").style.display = "none";
             document.getElementById("adminSection").style.display = "block";
-            fetchAdminPosts();
+            loadAdminPosts();
         }
 
         function doLogout() {
@@ -311,72 +322,65 @@
             location.reload();
         }
 
-        async function fetchAdminPosts() {
+        function loadAdminPosts() {
             const tbody = document.getElementById('adminGrid');
-            const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
-            const timestamp = new Date().getTime();
+            const posts = JSON.parse(localStorage.getItem('zone_sport_posts') || '[]');
 
-            try {
-                const targetUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?_=${timestamp}`;
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-
-                const res = await fetch(proxyUrl);
-                const wrapper = await res.json();
-                
-                if (!wrapper.contents) {
-                    throw new Error('فشل الاتصال');
-                }
-
-                const data = JSON.parse(wrapper.contents);
-
-                if (data.ok && data.result && data.result.length > 0) {
-                    tbody.innerHTML = '';
-                    const validPosts = data.result.filter(item => item.channel_post || item.message).reverse();
-
-                    validPosts.forEach(item => {
-                        const msg = item.channel_post || item.message;
-                        const id = msg.message_id;
-                        let text = msg.text || msg.caption || "خبر بدون عنوان";
-                        let title = text.split('\n')[0];
-                        let date = new Date(msg.date * 1000).toLocaleDateString('ar-EG');
-                        const isHidden = hiddenArticles.includes(id);
-
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td><code>#${id}</code></td>
-                            <td class="post-title-cell">${title}</td>
-                            <td>${date}</td>
-                            <td>
-                                <span class="badge ${isHidden ? 'badge-hidden' : 'badge-visible'}">
-                                    ${isHidden ? 'مخفي' : 'معروض'}
-                                </span>
-                            </td>
-                            <td>
-                                <button onclick="toggleVisibility(${id})" class="btn-toggle ${isHidden ? 'btn-show' : 'btn-hide'}">
-                                    ${isHidden ? 'إظهار' : 'إخفاء'}
-                                </button>
-                            </td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">لا توجد منشورات.</td></tr>';
-                }
-            } catch (err) {
-                console.error(err);
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--danger); padding:20px;">خطأ في جلب البيانات من تليجرام.</td></tr>';
+            if (posts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px;">لا توجد أخبار مضافة.</td></tr>';
+                return;
             }
+
+            tbody.innerHTML = '';
+            posts.forEach((post, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><code>#${index + 1}</code></td>
+                    <td class="post-title-cell">${post.title}</td>
+                    <td>${post.date}</td>
+                    <td>
+                        <button onclick="deletePost(${post.id})" class="btn-delete">حذف</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
-        function toggleVisibility(id) {
-            let hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
-            if (hiddenArticles.includes(id)) {
-                hiddenArticles = hiddenArticles.filter(item => item !== id);
-            } else {
-                hiddenArticles.push(id);
+        function addNewPost() {
+            const title = document.getElementById('postTitle').value.trim();
+            const content = document.getElementById('postContent').value.trim();
+
+            if (!title || !content) {
+                alert('الرجاء كتابة العنوان ومحتوى الخبر أولاً!');
+                return;
             }
-            localStorage.setItem('hidden_articles', JSON.stringify(hiddenArticles));
-            fetchAdminPosts();
+
+            const posts = JSON.parse(localStorage.getItem('zone_sport_posts') || '[]');
+            
+            const newPost = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                date: new Date().toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' })
+            };
+
+            posts.unshift(newPost); // يضيف الخبر الجديد في البداية
+            localStorage.setItem('zone_sport_posts', JSON.stringify(posts));
+
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postContent').value = '';
+
+            loadAdminPosts();
+            alert('تم نشر الخبر بنجاح!');
+        }
+
+        function deletePost(id) {
+            if (confirm('هل أنت متأكد من حذف هذا الخبر؟')) {
+                let posts = JSON.parse(localStorage.getItem('zone_sport_posts') || '[]');
+                posts = posts.filter(post => post.id !== id);
+                localStorage.setItem('zone_sport_posts', JSON.stringify(posts));
+                loadAdminPosts();
+            }
         }
     </script>
 </body>
