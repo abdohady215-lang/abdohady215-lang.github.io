@@ -131,8 +131,10 @@
 
         .card-img {
             width: 100%;
-            height: 200px;
+            height: auto;
+            max-height: 350px;
             object-fit: cover;
+            display: block;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -268,7 +270,6 @@
                 if (data.ok && data.result.length > 0) {
                     const hiddenArticles = JSON.parse(localStorage.getItem('hidden_articles') || '[]');
                     
-                    // تصفية المنشورات واستبعاد الأخبار المخفية عبر الإدارة
                     const validPosts = data.result
                         .filter(item => item.channel_post || item.message)
                         .filter(item => {
@@ -294,7 +295,7 @@
                             year: 'numeric', month: 'short', day: 'numeric'
                         });
 
-                        let imgUrl = "logo.png";
+                        let imgUrl = null;
                         if (msg.photo && msg.photo.length > 0) {
                             const fileId = msg.photo[msg.photo.length - 1].file_id;
                             imgUrl = await fetchTelegramFile(fileId);
@@ -322,11 +323,15 @@
             articles.forEach(art => {
                 const detailUrl = `article.html?id=${art.id}`;
                 
+                const imageHTML = art.imgUrl 
+                    ? `<img src="${art.imgUrl}" class="card-img" onerror="this.remove()" alt="${art.title}">`
+                    : '';
+
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.id = `post-${art.id}`;
                 card.innerHTML = `
-                    <img src="${art.imgUrl}" class="card-img" onerror="this.src='logo.png'" alt="${art.title}">
+                    ${imageHTML}
                     <div class="card-body">
                         <div class="card-date">📅 ${art.date}</div>
                         <h2 class="card-title">${art.title}</h2>
@@ -340,7 +345,6 @@
                 grid.appendChild(card);
             });
 
-            // التمرير التلقائي للكارت إذا فتح المستخدم رابطاً يحتوي على #post-ID
             if (window.location.hash) {
                 const targetElement = document.querySelector(window.location.hash);
                 if (targetElement) {
@@ -355,7 +359,7 @@
                 const data = await res.json();
                 if (data.ok) return `https://api.telegram.org/file/bot${BOT_TOKEN}/${data.result.file_path}`;
             } catch (e) {}
-            return "logo.png";
+            return null;
         }
 
         function copyPostLink(id) {
