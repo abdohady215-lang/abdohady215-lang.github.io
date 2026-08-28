@@ -2,8 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5179431800227143"
-     crossorigin="anonymous"></script> 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5179431800227143" crossorigin="anonymous"></script> 
      
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9GJKPFFFKT"></script>
@@ -307,6 +306,7 @@
             font-weight: 800;
             font-size: 0.9rem;
             transition: opacity 0.2s;
+            cursor: pointer;
         }
 
         .read-more:hover {
@@ -483,11 +483,14 @@
             }
 
             articles.forEach(art => {
+                // حفظ بيانات المقال في localStorage لتجنب مشاكل الأحجام الكبيرة في الـ URL
+                localStorage.setItem(`article_${art.id}`, JSON.stringify(art));
+
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.id = `post-${art.id}`;
                 
-                const detailUrl = `article.html?id=${art.id}&title=${encodeURIComponent(art.title)}&text=${encodeURIComponent(art.text)}&date=${encodeURIComponent(art.date)}&img=${encodeURIComponent(art.imgUrl)}`;
+                const detailUrl = `article.html?id=${art.id}`;
 
                 card.innerHTML = `
                     <div class="card-img-container">
@@ -508,10 +511,11 @@
         }
 
         function copyPostLink(postId) {
-            const shortUrl = `${window.location.origin}${window.location.pathname}#post-${postId}`;
+            const pathName = window.location.pathname.replace('index.html', '');
+            const articleUrl = `${window.location.origin}${pathName}article.html?id=${postId}`;
             
-            navigator.clipboard.writeText(shortUrl).then(() => {
-                alert(`✅ تم نسخ رابط الخبر بنجاح:\n${shortUrl}`);
+            navigator.clipboard.writeText(articleUrl).then(() => {
+                alert(`✅ تم نسخ رابط الخبر بنجاح:\n${articleUrl}`);
             }).catch(err => {
                 console.error('فشل عملية النسخ:', err);
             });
